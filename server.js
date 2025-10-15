@@ -19,6 +19,7 @@ app.use("/api/transports", require("./src/routes/transports"))
 app.use("/api/notes", require("./src/routes/notes"))
 app.use("/api/upgrades", require("./src/routes/upgrades"))
 app.use("/api/analytics", require("./src/routes/analytics"))
+app.use("/api/users", require("./src/routes/users"))
 
 // Root -> serve dashboard
 app.get("/", function(req, res){

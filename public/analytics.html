@@ -8,14 +8,22 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
   <body>
-    <header>
-      <select id="view-switch" aria-label="Selecionar visão" style="margin-left:12px">
-        <option value="dashboard">Dashboard</option>
-        <option value="analytics" selected>Analytics</option>
-      </select>
-      <h1>Analytics de Transportes</h1>
-    </header>
-    <main>
+    <nav class="sidebar">
+      <h2>Cockpit SAP Basis</h2>
+      <ul>
+        <li><a href="/">Dashboard</a></li>
+        <li><a href="/analytics.html" class="active">Analytics</a></li>
+        <li><a href="/users.html">Gestão de Usuários</a></li>
+        <li><a href="/profiles.html">Perfis e Papéis</a></li>
+        <li><a href="/audit.html">Log de Auditoria</a></li>
+        <li><a href="/metrics.html">Métricas</a></li>
+      </ul>
+    </nav>
+    <div class="main-content">
+      <header>
+        <h1>Analytics de Transportes</h1>
+      </header>
+      <main>
       <section>
         <h2>Filtro de Período</h2>
         <form id="period-form">
@@ -35,7 +43,8 @@
           <canvas id="pieChart" height="160"></canvas>
         </div>
       </section>
-    </main>
+      </main>
+    </div>
     <script>
       async function fetchTransports(params){
         const qs = new URLSearchParams(params).toString();
@@ -144,8 +153,6 @@
       document.getElementById('clear').addEventListener('click', ()=>{ setCurrentMonth(); load(); });
 
       // Init
-      const viewSel = document.getElementById('view-switch');
-      viewSel.addEventListener('change', ()=>{ if(viewSel.value === 'dashboard') window.location.href = '/'; });
       setCurrentMonth();
       load();
     </script>

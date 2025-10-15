@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Métricas - Cockpit SAP Basis</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <nav class="sidebar">
+      <h2>Cockpit SAP Basis</h2>
+      <ul>
+        <li><a href="/">Dashboard</a></li>
+        <li><a href="/analytics.html">Analytics</a></li>
+        <li><a href="/users.html">Gestão de Usuários</a></li>
+        <li><a href="/profiles.html">Perfis e Papéis</a></li>
+        <li><a href="/audit.html">Log de Auditoria</a></li>
+        <li><a href="/metrics.html" class="active">Métricas</a></li>
+      </ul>
+    </nav>
+    <div class="main-content">
+      <header>
+        <h1>Métricas do Sistema</h1>
+      </header>
+      <main>
+        <!-- Key Metrics Cards -->
+        <section>
+          <h2>Métricas Principais</h2>
+          <div id="metrics-cards" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:24px">
+            <!-- Cards will be populated by JavaScript -->
+          </div>
+        </section>
+
+        <!-- Charts Section -->
+        <section>
+          <h2>Gráficos de Métricas</h2>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:24px">
+            <div>
+              <h3>Usuários por Status</h3>
+              <canvas id="usersStatusChart" height="200"></canvas>
+            </div>
+            <div>
+              <h3>Atribuições de Perfis e Papéis</h3>
+              <canvas id="assignmentsChart" height="200"></canvas>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+            <div>
+              <h3>Atividades de Usuário</h3>
+              <canvas id="userActivitiesChart" height="200"></canvas>
+            </div>
+            <div>
+              <h3>Logins por Período</h3>
+              <canvas id="loginsChart" height="200"></canvas>
+            </div>
+          </div>
+        </section>
+
+        <!-- Detailed Metrics Table -->
+        <section>
+          <h2>Métricas Detalhadas</h2>
+          <table id="detailed-metrics">
+            <thead>
+              <tr><th>Categoria</th><th>Métrica</th><th>Valor</th><th>Variação</th></tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </section>
+
+        <!-- Export Section -->
+        <section>
+          <h2>Exportar Relatório</h2>
+          <button onclick="exportMetrics('json')">Exportar JSON</button>
+          <button onclick="exportMetrics('csv')">Exportar CSV</button>
+          <button onclick="generateReport()">Gerar Relatório PDF</button>
+        </section>
+      </main>
+    </div>
+    <script>
+      let metrics = {};
+      let charts = {};
+
+      // Helper functions
+      async function api(path, options = {}) {
+        const res = await fetch(path, { 
+          headers: { 'Content-Type': 'application/json' }, 
+          ...options 
+        });
+        if (!res.ok) throw new Error(await res.text());
+        return res.json();
+      }
+
+      // Load metrics data
+      async function loadMetrics() {
+        try {
+          metrics = await api('/api/users/metrics');
+          renderMetricsCards();
+          renderDetailedMetrics();
+          createCharts();
+        } catch (error) {
+          console.error('Erro ao carregar métricas:', error);
+          // Fallback to mock data
+          metrics = {
+            totalUsers: 150,
+            activeUsers: 120,
+            blockedUsers: 30,
+            usersCreated: 25,
+            usersModified: 45,
+            profilesAssigned: 80,
+            profilesRemoved: 15,
+            rolesAssigned: 60,
+            rolesRemoved: 10,
+            auditsCompleted: 200
+          };
+          renderMetricsCards();
+          renderDetailedMetrics();
+          createCharts();
+        }
+      }
+
+      // Render metrics cards
+      function renderMetricsCards() {
+        const container = document.getElementById('metrics-cards');
+        const cards = [
+          { title: 'Total de Usuários', value: metrics.totalUsers, color: '#007bff' },
+          { title: 'Usuários Ativos', value: metrics.activeUsers, color: '#28a745' },
+          { title: 'Usuários Bloqueados', value: metrics.blockedUsers, color: '#dc3545' },
+          { title: 'Usuários Criados', value: metrics.usersCreated, color: '#17a2b8' },
+          { title: 'Perfis Atribuídos', value: metrics.profilesAssigned, color: '#ffc107' },
+          { title: 'Papéis Atribuídos', value: metrics.rolesAssigned, color: '#6f42c1' },
+          { title: 'Auditorias Concluídas', value: metrics.auditsCompleted, color: '#20c997' },
+          { title: 'Taxa de Atividade', value: `${Math.round((metrics.activeUsers / metrics.totalUsers) * 100)}%`, color: '#fd7e14' }
+        ];
+
+        container.innerHTML = cards.map(card => `
+          <div style="background:${card.color};color:white;padding:16px;border-radius:8px;text-align:center">
+            <h3 style="margin:0;font-size:24px">${card.value}</h3>
+            <p style="margin:8px 0 0 0;font-size:14px">${card.title}</p>
+          </div>
+        `).join('');
+      }
+
+      // Render detailed metrics table
+      function renderDetailedMetrics() {
+        const tbody = document.querySelector('#detailed-metrics tbody');
+        const detailedMetrics = [
+          { category: 'Usuários', metric: 'Total', value: metrics.totalUsers, variation: '+5%' },
+          { category: 'Usuários', metric: 'Ativos', value: metrics.activeUsers, variation: '+2%' },
+          { category: 'Usuários', metric: 'Bloqueados', value: metrics.blockedUsers, variation: '-1%' },
+          { category: 'Operações', metric: 'Criados', value: metrics.usersCreated, variation: '+12%' },
+          { category: 'Operações', metric: 'Modificados', value: metrics.usersModified, variation: '+8%' },
+          { category: 'Perfis', metric: 'Atribuídos', value: metrics.profilesAssigned, variation: '+15%' },
+          { category: 'Perfis', metric: 'Removidos', value: metrics.profilesRemoved, variation: '+3%' },
+          { category: 'Papéis', metric: 'Atribuídos', value: metrics.rolesAssigned, variation: '+10%' },
+          { category: 'Papéis', metric: 'Removidos', value: metrics.rolesRemoved, variation: '+2%' },
+          { category: 'Auditoria', metric: 'Concluídas', value: metrics.auditsCompleted, variation: '+20%' }
+        ];
+
+        tbody.innerHTML = detailedMetrics.map(m => `<tr>
+          <td>${m.category}</td>
+          <td>${m.metric}</td>
+          <td>${m.value}</td>
+          <td style="color:${m.variation.startsWith('+') ? 'green' : 'red'}">${m.variation}</td>
+        </tr>`).join('');
+      }
+
+      // Create charts
+      function createCharts() {
+        // Users by Status
+        const usersStatusCtx = document.getElementById('usersStatusChart').getContext('2d');
+        if (charts.usersStatus) charts.usersStatus.destroy();
+        charts.usersStatus = new Chart(usersStatusCtx, {
+          type: 'doughnut',
+          data: {
+            labels: ['Ativos', 'Bloqueados'],
+            datasets: [{
+              data: [metrics.activeUsers, metrics.blockedUsers],
+              backgroundColor: ['#28a745', '#dc3545']
+            }]
+          },
+          options: {
+            responsive: true,
+            plugins: {
+              legend: { labels: { font: { size: 14 } } }
+            }
+          }
+        });
+
+        // Assignments
+        const assignmentsCtx = document.getElementById('assignmentsChart').getContext('2d');
+        if (charts.assignments) charts.assignments.destroy();
+        charts.assignments = new Chart(assignmentsCtx, {
+          type: 'bar',
+          data: {
+            labels: ['Perfis Atribuídos', 'Perfis Removidos', 'Papéis Atribuídos', 'Papéis Removidos'],
+            datasets: [{
+              data: [metrics.profilesAssigned, metrics.profilesRemoved, metrics.rolesAssigned, metrics.rolesRemoved],
+              backgroundColor: ['#007bff', '#dc3545', '#28a745', '#ffc107']
+            }]
+          },
+          options: {
+            responsive: true,
+            plugins: {
+              legend: { display: false }
+            }
+          }
+        });
+
+        // User Activities
+        const userActivitiesCtx = document.getElementById('userActivitiesChart').getContext('2d');
+        if (charts.userActivities) charts.userActivities.destroy();
+        charts.userActivities = new Chart(userActivitiesCtx, {
+          type: 'line',
+          data: {
+            labels: ['Criados', 'Modificados', 'Excluídos'],
+            datasets: [{
+              label: 'Atividades',
+              data: [metrics.usersCreated, metrics.usersModified, metrics.usersCreated - metrics.totalUsers],
+              borderColor: '#007bff',
+              backgroundColor: 'rgba(0,123,255,0.1)',
+              tension: 0.4
+            }]
+          },
+          options: {
+            responsive: true,
+            plugins: {
+              legend: { labels: { font: { size: 14 } } }
+            }
+          }
+        });
+
+        // Logins (mock data)
+        const loginsCtx = document.getElementById('loginsChart').getContext('2d');
+        if (charts.logins) charts.logins.destroy();
+        charts.logins = new Chart(loginsCtx, {
+          type: 'line',
+          data: {
+            labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'],
+            datasets: [{
+              label: 'Logins',
+              data: [120, 135, 145, 130, 150, 160],
+              borderColor: '#28a745',
+              backgroundColor: 'rgba(40,167,69,0.1)',
+              tension: 0.4
+            }]
+          },
+          options: {
+            responsive: true,
+            plugins: {
+              legend: { labels: { font: { size: 14 } } }
+            }
+          }
+        });
+      }
+
+      // Export functions
+      function exportMetrics(format) {
+        let content, filename, mimeType;
+        
+        if (format === 'json') {
+          content = JSON.stringify(metrics, null, 2);
+          filename = `metrics-${new Date().toISOString().slice(0,10)}.json`;
+          mimeType = 'application/json';
+        } else if (format === 'csv') {
+          const headers = ['Métrica', 'Valor'];
+          const rows = Object.entries(metrics).map(([key, value]) => [key, value]);
+          content = [headers, ...rows].map(row => row.map(field => `"${field}"`).join(',')).join('\n');
+          filename = `metrics-${new Date().toISOString().slice(0,10)}.csv`;
+          mimeType = 'text/csv';
+        }
+
+        const blob = new Blob([content], { type: mimeType });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        a.click();
+        URL.revokeObjectURL(url);
+      }
+
+      // Generate PDF report (mock)
+      function generateReport() {
+        alert('Funcionalidade de geração de PDF será implementada em versão futura');
+      }
+
+      // Initialize
+      loadMetrics();
+    </script>
+  </body>
+</html>

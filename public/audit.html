@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Log de Auditoria - Cockpit SAP Basis</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <nav class="sidebar">
+      <h2>Cockpit SAP Basis</h2>
+      <ul>
+        <li><a href="/">Dashboard</a></li>
+        <li><a href="/analytics.html">Analytics</a></li>
+        <li><a href="/users.html">Gestão de Usuários</a></li>
+        <li><a href="/profiles.html">Perfis e Papéis</a></li>
+        <li><a href="/audit.html" class="active">Log de Auditoria</a></li>
+        <li><a href="/metrics.html">Métricas</a></li>
+      </ul>
+    </nav>
+    <div class="main-content">
+      <header>
+        <h1>Log de Auditoria</h1>
+      </header>
+      <main>
+        <!-- Filters -->
+        <section>
+          <h2>Filtros</h2>
+          <form id="audit-filters">
+            <select id="action-filter">
+              <option value="">Todas as ações</option>
+              <option value="USER_CREATED">Criação de Usuário</option>
+              <option value="USER_MODIFIED">Modificação de Usuário</option>
+              <option value="USER_DELETED">Exclusão de Usuário</option>
+              <option value="PROFILE_ASSIGNED">Perfil Atribuído</option>
+              <option value="PROFILE_REMOVED">Perfil Removido</option>
+              <option value="ROLE_ASSIGNED">Papel Atribuído</option>
+              <option value="ROLE_REMOVED">Papel Removido</option>
+              <option value="USER_LOGIN">Login</option>
+            </select>
+            <select id="user-filter">
+              <option value="">Todos os usuários</option>
+            </select>
+            <input type="date" id="date-from" placeholder="Data inicial" />
+            <input type="date" id="date-to" placeholder="Data final" />
+            <input type="number" id="limit" placeholder="Limite" value="100" min="1" max="1000" />
+            <button type="submit">Aplicar Filtros</button>
+            <button type="button" onclick="clearFilters()">Limpar</button>
+          </form>
+        </section>
+
+        <!-- Audit Logs -->
+        <section>
+          <h2>Logs de Auditoria</h2>
+          <div id="audit-stats" style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:16px">
+            <div style="background:#f8f9fa;padding:12px;border-radius:6px;text-align:center">
+              <h3 id="total-logs">0</h3>
+              <p>Total de Logs</p>
+            </div>
+            <div style="background:#f8f9fa;padding:12px;border-radius:6px;text-align:center">
+              <h3 id="user-actions">0</h3>
+              <p>Ações de Usuário</p>
+            </div>
+            <div style="background:#f8f9fa;padding:12px;border-radius:6px;text-align:center">
+              <h3 id="profile-actions">0</h3>
+              <p>Ações de Perfil</p>
+            </div>
+            <div style="background:#f8f9fa;padding:12px;border-radius:6px;text-align:center">
+              <h3 id="login-actions">0</h3>
+              <p>Logins</p>
+            </div>
+          </div>
+          <table id="audit-table">
+            <thead>
+              <tr><th>Data/Hora</th><th>Ação</th><th>Usuário</th><th>Admin</th><th>Detalhes</th></tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </section>
+
+        <!-- Export -->
+        <section>
+          <h2>Exportar Logs</h2>
+          <button onclick="exportLogs('json')">Exportar JSON</button>
+          <button onclick="exportLogs('csv')">Exportar CSV</button>
+        </section>
+      </main>
+    </div>
+    <script>
+      let currentLogs = [];
+
+      // Helper functions
+      async function api(path, options = {}) {
+        const res = await fetch(path, { 
+          headers: { 'Content-Type': 'application/json' }, 
+          ...options 
+        });
+        if (!res.ok) throw new Error(await res.text());
+        return res.json();
+      }
+
+      function fmtDate(iso) {
+        try { return new Date(iso).toLocaleString(); } catch { return iso || ''; }
+      }
+
+      // Load users for filter
+      async function loadUsers() {
+        try {
+          const users = await api('/api/users');
+          const select = document.getElementById('user-filter');
+          select.innerHTML = '<option value="">Todos os usuários</option>' +
+            users.map(u => `<option value="${u.id}">${u.username} - ${u.fullName}</option>`).join('');
+        } catch (error) {
+          console.error('Erro ao carregar usuários:', error);
+        }
+      }
+
+      // Load audit logs
+      async function loadAuditLogs() {
+        const action = document.getElementById('action-filter').value;
+        const userId = document.getElementById('user-filter').value;
+        const limit = document.getElementById('limit').value || 100;
+        
+        let params = new URLSearchParams();
+        if (action) params.append('action', action);
+        if (userId) params.append('userId', userId);
+        if (limit) params.append('limit', limit);
+        
+        try {
+          currentLogs = await api(`/api/users/audit-logs?${params.toString()}`);
+          renderLogs();
+          updateStats();
+        } catch (error) {
+          console.error('Erro ao carregar logs:', error);
+          currentLogs = [];
+          renderLogs();
+        }
+      }
+
+      // Render logs table
+      function renderLogs() {
+        const tbody = document.querySelector('#audit-table tbody');
+        if (currentLogs.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="5" style="text-align:center">Nenhum log encontrado</td></tr>';
+          return;
+        }
+
+        tbody.innerHTML = currentLogs.map(log => `<tr>
+          <td>${fmtDate(log.timestamp)}</td>
+          <td><span class="status ${getActionClass(log.action)}">${getActionLabel(log.action)}</span></td>
+          <td>${log.userId}</td>
+          <td>${log.adminUser}</td>
+          <td style="max-width:300px;overflow:hidden;text-overflow:ellipsis">${JSON.stringify(log.details)}</td>
+        </tr>`).join('');
+      }
+
+      // Get action class for styling
+      function getActionClass(action) {
+        if (action.includes('CREATED') || action.includes('ASSIGNED')) return 'done';
+        if (action.includes('DELETED') || action.includes('REMOVED')) return 'pending';
+        if (action.includes('LOGIN')) return 'in-progress';
+        return 'pending';
+      }
+
+      // Get action label
+      function getActionLabel(action) {
+        const labels = {
+          'USER_CREATED': 'Usuário Criado',
+          'USER_MODIFIED': 'Usuário Modificado',
+          'USER_DELETED': 'Usuário Excluído',
+          'PROFILE_ASSIGNED': 'Perfil Atribuído',
+          'PROFILE_REMOVED': 'Perfil Removido',
+          'ROLE_ASSIGNED': 'Papel Atribuído',
+          'ROLE_REMOVED': 'Papel Removido',
+          'USER_LOGIN': 'Login'
+        };
+        return labels[action] || action;
+      }
+
+      // Update statistics
+      function updateStats() {
+        document.getElementById('total-logs').textContent = currentLogs.length;
+        document.getElementById('user-actions').textContent = 
+          currentLogs.filter(l => l.action.includes('USER_')).length;
+        document.getElementById('profile-actions').textContent = 
+          currentLogs.filter(l => l.action.includes('PROFILE_') || l.action.includes('ROLE_')).length;
+        document.getElementById('login-actions').textContent = 
+          currentLogs.filter(l => l.action === 'USER_LOGIN').length;
+      }
+
+      // Clear filters
+      function clearFilters() {
+        document.getElementById('audit-filters').reset();
+        document.getElementById('limit').value = 100;
+        loadAuditLogs();
+      }
+
+      // Export functions
+      function exportLogs(format) {
+        if (currentLogs.length === 0) {
+          alert('Nenhum log para exportar');
+          return;
+        }
+
+        let content, filename, mimeType;
+        
+        if (format === 'json') {
+          content = JSON.stringify(currentLogs, null, 2);
+          filename = `audit-logs-${new Date().toISOString().slice(0,10)}.json`;
+          mimeType = 'application/json';
+        } else if (format === 'csv') {
+          const headers = ['Data/Hora', 'Ação', 'Usuário', 'Admin', 'Detalhes'];
+          const rows = currentLogs.map(log => [
+            log.timestamp,
+            log.action,
+            log.userId,
+            log.adminUser,
+            JSON.stringify(log.details)
+          ]);
+          content = [headers, ...rows].map(row => row.map(field => `"${field}"`).join(',')).join('\n');
+          filename = `audit-logs-${new Date().toISOString().slice(0,10)}.csv`;
+          mimeType = 'text/csv';
+        }
+
+        const blob = new Blob([content], { type: mimeType });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        a.click();
+        URL.revokeObjectURL(url);
+      }
+
+      // Event listeners
+      document.getElementById('audit-filters').addEventListener('submit', (e) => {
+        e.preventDefault();
+        loadAuditLogs();
+      });
+
+      // Initialize
+      loadUsers();
+      loadAuditLogs();
+    </script>
+  </body>
+</html>

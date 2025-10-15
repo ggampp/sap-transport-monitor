@@ -7,19 +7,27 @@
     <link rel="stylesheet" href="/styles.css" />
   </head>
   <body>
-    <header>
-      <select id="view-switch" aria-label="Selecionar visão" style="margin-left:12px">
-        <option value="dashboard" selected>Dashboard</option>
-        <option value="analytics">Analytics</option>
-      </select>
-      <h1>Cockpit SAP Basis</h1>
-      <nav>
-        <button data-tab="transports">Transportes</button>
-        <button data-tab="notes">Notas SAP</button>
-        <button data-tab="upgrades">Upgrades</button>
-      </nav>
-    </header>
-    <main>
+    <nav class="sidebar">
+      <h2>Cockpit SAP Basis</h2>
+      <ul>
+        <li><a href="/" class="active">Dashboard</a></li>
+        <li><a href="/analytics.html">Analytics</a></li>
+        <li><a href="/users.html">Gestão de Usuários</a></li>
+        <li><a href="/profiles.html">Perfis e Papéis</a></li>
+        <li><a href="/audit.html">Log de Auditoria</a></li>
+        <li><a href="/metrics.html">Métricas</a></li>
+      </ul>
+    </nav>
+    <div class="main-content">
+      <header>
+        <h1>Dashboard</h1>
+        <nav>
+          <button data-tab="transports">Transportes</button>
+          <button data-tab="notes">Notas SAP</button>
+          <button data-tab="upgrades">Upgrades</button>
+        </nav>
+      </header>
+      <main>
       <section id="transports" class="tab active">
         <h2>Transportes</h2>
         <form id="transport-form">
@@ -65,15 +73,9 @@
           <tbody></tbody>
         </table>
       </section>
-    </main>
+      </main>
+    </div>
     <script src="/main.js"></script>
-    <script>
-      const viewSel = document.getElementById('view-switch');
-      viewSel.value = 'dashboard';
-      viewSel.addEventListener('change', ()=>{
-        if(viewSel.value === 'analytics') window.location.href = '/analytics.html';
-      });
-    </script>
   </body>
   </html>
 

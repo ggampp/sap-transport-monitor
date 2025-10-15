@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Administração de Usuários - Cockpit SAP Basis</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <nav class="sidebar">
+      <h2>Cockpit SAP Basis</h2>
+      <ul>
+        <li><a href="/">Dashboard</a></li>
+        <li><a href="/analytics.html">Analytics</a></li>
+        <li><a href="/users.html" class="active">Gestão de Usuários</a></li>
+        <li><a href="/profiles.html">Perfis e Papéis</a></li>
+        <li><a href="/audit.html">Log de Auditoria</a></li>
+        <li><a href="/metrics.html">Métricas</a></li>
+      </ul>
+    </nav>
+    <div class="main-content">
+      <header>
+        <h1>Administração de Usuários</h1>
+      </header>
+      <main>
+      <!-- User Management -->
+      <section>
+        <h2>Gestão de Usuários</h2>
+        <form id="user-form">
+          <input name="username" placeholder="Username" required />
+          <input name="fullName" placeholder="Nome Completo" required />
+          <input name="email" placeholder="Email" type="email" required />
+          <input name="department" placeholder="Departamento" required />
+          <select name="status">
+            <option value="active">Ativo</option>
+            <option value="blocked">Bloqueado</option>
+          </select>
+          <button type="submit">Criar Usuário</button>
+        </form>
+        <table id="users-table">
+          <thead>
+            <tr><th>Username</th><th>Nome</th><th>Email</th><th>Departamento</th><th>Status</th><th>Último Login</th><th>Ações</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </section>
+
+      <!-- Profile/Role Management -->
+      <section>
+        <h2>Perfis e Papéis</h2>
+        <div id="profile-management" style="display:none">
+          <h3>Gerenciar Perfis e Papéis</h3>
+          <div>
+            <input id="profile-input" placeholder="Nome do Perfil" />
+            <button onclick="assignProfile()">Atribuir Perfil</button>
+          </div>
+          <div>
+            <input id="role-input" placeholder="Nome do Papel" />
+            <button onclick="assignRole()">Atribuir Papel</button>
+          </div>
+          <div id="current-assignments"></div>
+        </div>
+      </section>
+
+      <!-- SOX Compliance -->
+      <section>
+        <h2>Revisão SOX</h2>
+        <button onclick="loadSoxReview()">Carregar Revisão SOX</button>
+        <table id="sox-table" style="display:none">
+          <thead>
+            <tr><th>Username</th><th>Nome</th><th>Departamento</th><th>Perfis Críticos</th><th>Papéis Críticos</th><th>Último Login</th><th>Necessita Revisão</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </section>
+
+      <!-- Audit Logs -->
+      <section>
+        <h2>Logs de Auditoria</h2>
+        <div>
+          <select id="audit-filter">
+            <option value="">Todas as ações</option>
+            <option value="USER_CREATED">Criação de Usuário</option>
+            <option value="USER_MODIFIED">Modificação de Usuário</option>
+            <option value="PROFILE_ASSIGNED">Perfil Atribuído</option>
+            <option value="ROLE_ASSIGNED">Papel Atribuído</option>
+            <option value="USER_LOGIN">Login</option>
+          </select>
+          <button onclick="loadAuditLogs()">Carregar Logs</button>
+        </div>
+        <table id="audit-table" style="display:none">
+          <thead>
+            <tr><th>Data/Hora</th><th>Ação</th><th>Usuário</th><th>Detalhes</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </section>
+
+      <!-- Metrics -->
+      <section>
+        <h2>Métricas</h2>
+        <div id="metrics-container">
+          <canvas id="metricsChart" height="200"></canvas>
+        </div>
+      </section>
+      </main>
+    </div>
+    <script>
+      let currentUserId = null;
+      let metricsChart = null;
+
+      // Helper functions
+      async function api(path, options = {}) {
+        const res = await fetch(path, { 
+          headers: { 'Content-Type': 'application/json' }, 
+          ...options 
+        });
+        if (!res.ok) throw new Error(await res.text());
+        return res.json();
+      }
+
+      function fmtDate(iso) {
+        try { return new Date(iso).toLocaleString(); } catch { return iso || ''; }
+      }
+
+      function statusBadge(status) {
+        const cls = status === 'active' ? 'done' : 'pending';
+        return `<span class="status ${cls}">${status}</span>`;
+      }
+
+      // User Management
+      async function loadUsers() {
+        const users = await api('/api/users');
+        const tbody = document.querySelector('#users-table tbody');
+        tbody.innerHTML = users.map(u => `<tr>
+          <td>${u.username}</td>
+          <td>${u.fullName}</td>
+          <td>${u.email}</td>
+          <td>${u.department}</td>
+          <td>${statusBadge(u.status)}</td>
+          <td>${fmtDate(u.lastLogin)}</td>
+          <td class="actions">
+            <button onclick="editUser('${u.id}')">Editar</button>
+            <button onclick="manageUser('${u.id}')">Gerenciar</button>
+            <button onclick="deleteUser('${u.id}')">Excluir</button>
+          </td>
+        </tr>`).join('');
+      }
+
+      document.getElementById('user-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const form = new FormData(e.target);
+        await api('/api/users', { 
+          method: 'POST', 
+          body: JSON.stringify(Object.fromEntries(form)) 
+        });
+        e.target.reset();
+        loadUsers();
+      });
+
+      window.editUser = async (id) => {
+        const user = await api(`/api/users/${id}`);
+        const form = document.getElementById('user-form');
+        form.username.value = user.username;
+        form.fullName.value = user.fullName;
+        form.email.value = user.email;
+        form.department.value = user.department;
+        form.status.value = user.status;
+        form.querySelector('button').textContent = 'Atualizar';
+        form.dataset.editId = id;
+      };
+
+      window.manageUser = (id) => {
+        currentUserId = id;
+        document.getElementById('profile-management').style.display = 'block';
+        loadUserAssignments(id);
+      };
+
+      window.deleteUser = async (id) => {
+        if (confirm('Tem certeza que deseja excluir este usuário?')) {
+          await api(`/api/users/${id}`, { method: 'DELETE' });
+          loadUsers();
+        }
+      };
+
+      // Profile/Role Management
+      async function loadUserAssignments(userId) {
+        const user = await api(`/api/users/${userId}`);
+        const container = document.getElementById('current-assignments');
+        container.innerHTML = `
+          <h4>Perfis: ${user.profiles.join(', ') || 'Nenhum'}</h4>
+          <h4>Papéis: ${user.roles.join(', ') || 'Nenhum'}</h4>
+        `;
+      }
+
+      window.assignProfile = async () => {
+        const profileName = document.getElementById('profile-input').value;
+        if (!profileName) return;
+        await api(`/api/users/${currentUserId}/profiles`, {
+          method: 'POST',
+          body: JSON.stringify({ profileName })
+        });
+        document.getElementById('profile-input').value = '';
+        loadUserAssignments(currentUserId);
+      };
+
+      window.assignRole = async () => {
+        const roleName = document.getElementById('role-input').value;
+        if (!roleName) return;
+        await api(`/api/users/${currentUserId}/roles`, {
+          method: 'POST',
+          body: JSON.stringify({ roleName })
+        });
+        document.getElementById('role-input').value = '';
+        loadUserAssignments(currentUserId);
+      };
+
+      // SOX Review
+      window.loadSoxReview = async () => {
+        const soxData = await api('/api/users/sox-review');
+        const tbody = document.querySelector('#sox-table tbody');
+        tbody.innerHTML = soxData.map(u => `<tr>
+          <td>${u.username}</td>
+          <td>${u.fullName}</td>
+          <td>${u.department}</td>
+          <td>${u.criticalProfiles.join(', ')}</td>
+          <td>${u.criticalRoles.join(', ')}</td>
+          <td>${fmtDate(u.lastLogin)}</td>
+          <td>${u.needsReview ? 'SIM' : 'NÃO'}</td>
+        </tr>`).join('');
+        document.getElementById('sox-table').style.display = 'table';
+      };
+
+      // Audit Logs
+      window.loadAuditLogs = async () => {
+        const filter = document.getElementById('audit-filter').value;
+        const params = filter ? `?action=${filter}` : '';
+        const logs = await api(`/api/users/audit-logs${params}`);
+        const tbody = document.querySelector('#audit-table tbody');
+        tbody.innerHTML = logs.map(l => `<tr>
+          <td>${fmtDate(l.timestamp)}</td>
+          <td>${l.action}</td>
+          <td>${l.userId}</td>
+          <td>${JSON.stringify(l.details)}</td>
+        </tr>`).join('');
+        document.getElementById('audit-table').style.display = 'table';
+      };
+
+      // Metrics
+      async function loadMetrics() {
+        const metrics = await api('/api/users/metrics');
+        
+        if (metricsChart) metricsChart.destroy();
+        const ctx = document.getElementById('metricsChart').getContext('2d');
+        metricsChart = new Chart(ctx, {
+          type: 'doughnut',
+          data: {
+            labels: ['Usuários Ativos', 'Usuários Bloqueados', 'Perfis Atribuídos', 'Papéis Atribuídos'],
+            datasets: [{
+              data: [metrics.activeUsers, metrics.blockedUsers, metrics.profilesAssigned, metrics.rolesAssigned],
+              backgroundColor: ['#9ff0c5', '#ff9aa2', '#a9d3ff', '#ffd38a']
+            }]
+          },
+          options: {
+            responsive: true,
+            plugins: {
+              legend: { labels: { font: { size: 14 } } }
+            }
+          }
+        });
+      }
+
+      // Initialize
+      loadUsers();
+      loadMetrics();
+    </script>
+  </body>
+</html>

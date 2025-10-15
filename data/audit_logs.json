@@ -1,0 +1,14 @@
+[
+  {
+    "id": "9b293317-6c8a-4a71-ba62-688fdf52fece",
+    "action": "USER_CREATED",
+    "userId": "3ca4f27c-d7c8-419a-8ddc-8ceb1c658ae2",
+    "adminUser": "system",
+    "details": {
+      "username": "testuser",
+      "fullName": "Test User",
+      "email": "test@company.com"
+    },
+    "timestamp": "2025-10-15T20:42:54.971Z"
+  }
+]

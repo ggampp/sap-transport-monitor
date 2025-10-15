@@ -1,0 +1,14 @@
+[
+  {
+    "id": "3ca4f27c-d7c8-419a-8ddc-8ceb1c658ae2",
+    "username": "testuser",
+    "fullName": "Test User",
+    "email": "test@company.com",
+    "department": "IT",
+    "status": "active",
+    "profiles": [],
+    "roles": [],
+    "createdAt": "2025-10-15T20:42:54.962Z",
+    "lastLogin": null
+  }
+]
