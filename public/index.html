@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Cockpit SAP Basis</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Cockpit SAP Basis</h1>
+      <nav>
+        <button data-tab="transports">Transportes</button>
+        <button data-tab="notes">Notas SAP</button>
+        <button data-tab="upgrades">Upgrades</button>
+      </nav>
+    </header>
+    <main>
+      <section id="transports" class="tab active">
+        <h2>Transportes</h2>
+        <form id="transport-form">
+          <input name="requestId" placeholder="Request ID" required />
+          <input name="system" placeholder="Sistema (ex: DEV/QAS/PRD)" required />
+          <input name="owner" placeholder="Responsável" required />
+          <button type="submit">Adicionar</button>
+        </form>
+        <table id="transport-table">
+          <thead>
+            <tr><th>Request</th><th>Sistema</th><th>Responsável</th><th>Status</th><th>Ações</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </section>
+      <section id="notes" class="tab">
+        <h2>Notas SAP</h2>
+        <form id="note-form">
+          <input name="noteId" placeholder="Nota (ex: 1234567)" required />
+          <input name="system" placeholder="Sistema" required />
+          <input name="owner" placeholder="Responsável" required />
+          <button type="submit">Adicionar</button>
+        </form>
+        <table id="notes-table">
+          <thead>
+            <tr><th>Nota</th><th>Sistema</th><th>Responsável</th><th>Status</th><th>Ações</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </section>
+      <section id="upgrades" class="tab">
+        <h2>Upgrades</h2>
+        <form id="upgrade-form">
+          <input name="name" placeholder="Nome do Upgrade" required />
+          <input name="window" placeholder="Janela (ex: 2025-11-10 22:00)" required />
+          <input name="owner" placeholder="Responsável" required />
+          <button type="submit">Agendar</button>
+        </form>
+        <table id="upgrades-table">
+          <thead>
+            <tr><th>Upgrade</th><th>Janela</th><th>Responsável</th><th>Status</th><th>Ações</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </section>
+    </main>
+    <script src="/main.js"></script>
+  </body>
+  </html>
+
+

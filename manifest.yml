@@ -1,0 +1,8 @@
+applications:
+  - name: node-simple-app
+    memory: 128M
+    buildpacks:
+      - nodejs_buildpack
+    command: npm start
+    env:
+      NODE_ENV: production
