@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Analytics - Cockpit SAP Basis</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <header>
+      <select id="view-switch" aria-label="Selecionar visão" style="margin-left:12px">
+        <option value="dashboard">Dashboard</option>
+        <option value="analytics" selected>Analytics</option>
+      </select>
+      <h1>Analytics de Transportes</h1>
+    </header>
+    <main>
+      <section>
+        <h2>Filtro de Período</h2>
+        <form id="period-form">
+          <input type="date" id="from" name="from" />
+          <input type="date" id="to" name="to" />
+          <button type="submit">Aplicar</button>
+          <button type="button" id="clear">Limpar</button>
+        </form>
+      </section>
+      <section style="display:grid;grid-template-columns:2fr 1fr;gap:16px;align-items:start">
+        <div>
+          <h3>Transportes por dia por status</h3>
+          <canvas id="barChart" height="160"></canvas>
+        </div>
+        <div>
+          <h3>Total por status</h3>
+          <canvas id="pieChart" height="160"></canvas>
+        </div>
+      </section>
+    </main>
+    <script>
+      async function fetchTransports(params){
+        const qs = new URLSearchParams(params).toString();
+        const res = await fetch('/api/transports' + (qs ? ('?' + qs) : ''));
+        if(!res.ok) throw new Error(await res.text());
+        return res.json();
+      }
+
+      const colors = {
+        'pending': '#ffd38a',
+        'in-progress': '#a9d3ff',
+        'done': '#9ff0c5',
+        'error': '#ff9aa2'
+      };
+
+      function computeAnalytics(items){
+        const fmtDay = (d)=> new Date(d).toISOString().slice(0,10);
+        const perDay = {};
+        const totalsByStatus = {};
+        const statusesSet = new Set();
+        for(const t of items){
+          const day = fmtDay(t.createdAt);
+          const st = t.status || 'pending';
+          statusesSet.add(st);
+          if(!perDay[day]) perDay[day] = {};
+          perDay[day][st] = (perDay[day][st] || 0) + 1;
+          totalsByStatus[st] = (totalsByStatus[st] || 0) + 1;
+        }
+        const days = Object.keys(perDay).sort();
+        const statuses = Array.from(statusesSet).sort();
+        const series = statuses.map(st => ({ status: st, data: days.map(d => perDay[d][st] || 0) }));
+        return { days, series, totalsByStatus };
+      }
+
+      function filterByPeriod(items, from, to){
+        if(!from && !to) return items;
+        const startOfDay = (d)=>{ const x = new Date(d); x.setHours(0,0,0,0); return x; };
+        const fromDate = from ? startOfDay(new Date(from)) : null;
+        const toDate = to ? new Date(startOfDay(new Date(to)).getTime()+86400000-1) : null;
+        return items.filter(it => {
+          const dt = new Date(it.createdAt);
+          if(fromDate && dt < fromDate) return false;
+          if(toDate && dt > toDate) return false;
+          return true;
+        });
+      }
+
+      let barChart, pieChart;
+      function renderCharts(data){
+        const ctxBar = document.getElementById('barChart').getContext('2d');
+        const ctxPie = document.getElementById('pieChart').getContext('2d');
+
+        const datasets = data.series.map(s => ({
+          label: s.status,
+          data: s.data,
+          backgroundColor: (colors[s.status] || '#cfd8dc') + '88'
+        }));
+
+        if(barChart) barChart.destroy();
+        barChart = new Chart(ctxBar, {
+          type: 'bar',
+          data: { labels: data.days, datasets },
+          options: {
+            responsive: true,
+            scales: { x: { stacked: false }, y: { stacked: false, beginAtZero: true } },
+            plugins: {
+              legend: { labels: { font: { size: 22 } } }
+            }
+          }
+        });
+
+        const statuses = Object.keys(data.totalsByStatus);
+        const totals = statuses.map(s => data.totalsByStatus[s]);
+        if(pieChart) pieChart.destroy();
+        pieChart = new Chart(ctxPie, {
+          type: 'pie',
+          data: { labels: statuses, datasets: [{ data: totals, backgroundColor: statuses.map(s => colors[s] || '#cfd8dc') }] },
+          options: { responsive: true, plugins: { legend: { labels: { font: { size: 14 } } } } }
+        });
+      }
+
+      function setCurrentMonth(){
+        const now = new Date();
+        const y = now.getFullYear();
+        const m = String(now.getMonth()+1).padStart(2,'0');
+        const first = `${y}-${m}-01`;
+        const lastDay = new Date(y, now.getMonth()+1, 0).getDate();
+        const last = `${y}-${m}-${String(lastDay).padStart(2,'0')}`;
+        document.getElementById('from').value = first;
+        document.getElementById('to').value = last;
+      }
+
+      async function load(){
+        const from = document.getElementById('from').value;
+        const to = document.getElementById('to').value;
+        const params = {};
+        if(from) params.from = from;
+        if(to) params.to = to;
+        const items = await fetchTransports(params);
+        const filtered = filterByPeriod(items, from, to);
+        const data = computeAnalytics(filtered);
+        renderCharts(data);
+      }
+
+      document.getElementById('period-form').addEventListener('submit', (e)=>{ e.preventDefault(); load(); });
+      document.getElementById('clear').addEventListener('click', ()=>{ setCurrentMonth(); load(); });
+
+      // Init
+      const viewSel = document.getElementById('view-switch');
+      viewSel.addEventListener('change', ()=>{ if(viewSel.value === 'dashboard') window.location.href = '/'; });
+      setCurrentMonth();
+      load();
+    </script>
+  </body>
+  </html>
+
+

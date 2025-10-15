@@ -16,13 +16,17 @@ function statusBadge(status){
   return `<span class="status ${cls}">${status}</span>`;
 }
 
+function fmtDate(iso){
+  try { return new Date(iso).toLocaleString(); } catch { return iso || ''; }
+}
+
 // Transports
 const transportForm = document.getElementById('transport-form');
 const transportBody = document.querySelector('#transport-table tbody');
 async function loadTransports(){
   const list = await api('/api/transports');
   transportBody.innerHTML = list.map(t=>`<tr>
-    <td>${t.requestId}</td><td>${t.system}</td><td>${t.owner}</td>
+    <td>${t.requestId}</td><td>${t.system}</td><td>${t.owner}</td><td>${fmtDate(t.createdAt)}</td>
     <td>${statusBadge(t.status)}</td>
     <td class="actions">
       <button onclick="updateTransport('${t.id}','in-progress')">Iniciar</button>

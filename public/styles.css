@@ -1,19 +1,20 @@
-*{box-sizing:border-box}body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Helvetica,Arial,sans-serif;margin:0;background:#0b1020;color:#e4e7f0}
-header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:#111733;border-bottom:1px solid #1f2647}
+*{box-sizing:border-box}body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Helvetica,Arial,sans-serif;margin:0;background:#ffffff;color:#212529}
+header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:#f8f9fa;border-bottom:1px solid #dee2e6}
+h1+select{margin-left:12px;background:#ffffff;border:1px solid #ced4da;color:#212529;border-radius:6px;padding:6px 10px}
 h1{font-size:18px;margin:0}
-nav button{margin:0 6px;padding:8px 12px;border:1px solid #2b335e;background:#171e3b;color:#e4e7f0;border-radius:6px;cursor:pointer}
-nav button:hover{background:#1d2550}
+nav button{margin:0 6px;padding:8px 12px;border:1px solid #ced4da;background:#f8f9fa;color:#212529;border-radius:6px;cursor:pointer}
+nav button:hover{background:#e9ecef}
 main{padding:16px}
 .tab{display:none}
 .tab.active{display:block}
 form{display:flex;gap:8px;margin:12px 0}
 input,button{font:inherit}
-input{padding:8px 10px;border-radius:6px;border:1px solid #2b335e;background:#0f1530;color:#e4e7f0}
+input{padding:8px 10px;border-radius:6px;border:1px solid #ced4da;background:#ffffff;color:#212529}
 table{width:100%;border-collapse:collapse;margin-top:8px}
-th,td{padding:8px 10px;border-bottom:1px solid #1f2647}
+th,td{padding:8px 10px;border-bottom:1px solid #dee2e6}
 .status{padding:2px 6px;border-radius:6px;font-size:12px}
-.status.pending{background:#52340c;color:#ffd38a}
-.status.in-progress{background:#27425a;color:#a9d3ff}
-.status.done{background:#234d37;color:#9ff0c5}
+.status.pending{background:#fff3cd;color:#663c00}
+.status.in-progress{background:#cfe8ff;color:#084298}
+.status.done{background:#d1e7dd;color:#0f5132}
 .actions button{margin-right:6px}
 

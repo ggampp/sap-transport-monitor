@@ -1,10 +1,650 @@
 [
   {
-    "id": "4f3f3a34-311a-4daa-8a2b-f9985f2d77e0",
-    "requestId": "eeee",
-    "system": "eee",
-    "owner": "eee",
+    "id": "4d0c993d-cbef-4c8d-8671-d4fda99f19f1",
+    "requestId": "TCH-641",
+    "system": "DEV",
+    "owner": "Lucas Pereira",
+    "status": "done",
+    "createdAt": "2025-04-28T11:31:37.325Z"
+  },
+  {
+    "id": "052b5ce7-cda4-43a8-9901-a4dafa8f7008",
+    "requestId": "TRP-218",
+    "system": "QAS",
+    "owner": "Fernando Costa",
     "status": "in-progress",
-    "createdAt": "2025-10-15T17:55:54.387Z"
+    "createdAt": "2025-08-11T22:34:09.309Z"
+  },
+  {
+    "id": "1b8a47d2-cd53-4608-a39b-195805919ced",
+    "requestId": "REQ-302",
+    "system": "QAS",
+    "owner": "Maycon Reis",
+    "status": "pending",
+    "createdAt": "2025-08-28T15:39:47.252Z"
+  },
+  {
+    "id": "9af5c06f-2b88-4940-a4ee-8e2418a2ae42",
+    "requestId": "MAK-193",
+    "system": "DEV",
+    "owner": "Fernando Costa",
+    "status": "done",
+    "createdAt": "2025-02-25T15:28:50.182Z"
+  },
+  {
+    "id": "0b42f96f-3b61-419c-b0fe-1eebc6896849",
+    "requestId": "MAK-268",
+    "system": "QAS",
+    "owner": "Patrícia Gomes",
+    "status": "in-progress",
+    "createdAt": "2025-06-08T22:16:37.904Z"
+  },
+  {
+    "id": "7ab74984-5521-4de8-a41d-af6c4cf341cc",
+    "requestId": "TRP-360",
+    "system": "PRD",
+    "owner": "Patrícia Gomes",
+    "status": "in-progress",
+    "createdAt": "2025-04-25T01:00:19.031Z"
+  },
+  {
+    "id": "5f36feaa-8859-4476-b4ee-053fb0c78700",
+    "requestId": "TCH-211",
+    "system": "QAS",
+    "owner": "Fernando Costa",
+    "status": "pending",
+    "createdAt": "2025-10-07T09:10:49.632Z"
+  },
+  {
+    "id": "7d728491-c598-409c-821d-e0583af7c65a",
+    "requestId": "TCH-109",
+    "system": "PRD",
+    "owner": "Maycon Reis",
+    "status": "in-progress",
+    "createdAt": "2025-07-14T21:58:00.633Z"
+  },
+  {
+    "id": "1a64f3e7-1a50-446f-943f-ef7f03aef169",
+    "requestId": "TCH-370",
+    "system": "PRD",
+    "owner": "Maycon Reis",
+    "status": "pending",
+    "createdAt": "2025-06-14T06:45:23.676Z"
+  },
+  {
+    "id": "672cdb13-7257-4a67-a95b-507b2f38889e",
+    "requestId": "TRP-098",
+    "system": "PRD",
+    "owner": "Maycon Reis",
+    "status": "done",
+    "createdAt": "2025-08-11T16:49:01.015Z"
+  },
+  {
+    "id": "7390f3ae-2a7f-419b-9135-bd8ce6b94de0",
+    "requestId": "MAK-592",
+    "system": "PRD",
+    "owner": "Fernando Costa",
+    "status": "in-progress",
+    "createdAt": "2025-09-07T18:04:07.309Z"
+  },
+  {
+    "id": "c3dc1852-3df9-41e1-bcd6-1e1ff6323dc8",
+    "requestId": "TRP-879",
+    "system": "QAS",
+    "owner": "Guilherme Pimentel",
+    "status": "in-progress",
+    "createdAt": "2025-03-17T01:55:21.368Z"
+  },
+  {
+    "id": "4edc6e9e-2c87-4e30-80df-a202add41d1e",
+    "requestId": "TRP-361",
+    "system": "PRD",
+    "owner": "Guilherme Pimentel",
+    "status": "in-progress",
+    "createdAt": "2025-08-30T14:45:12.457Z"
+  },
+  {
+    "id": "85ce4a67-f393-4541-8c45-8630c57be42d",
+    "requestId": "REQ-594",
+    "system": "DEV",
+    "owner": "Guilherme Pimentel",
+    "status": "error",
+    "createdAt": "2025-05-29T03:50:43.223Z"
+  },
+  {
+    "id": "4a196f46-0101-470b-aa7f-df50c1b51797",
+    "requestId": "TCH-164",
+    "system": "PRD",
+    "owner": "Mariana Rocha",
+    "status": "error",
+    "createdAt": "2025-04-30T22:32:55.098Z"
+  },
+  {
+    "id": "c9d08c80-1c75-4719-a91d-fe73379bd540",
+    "requestId": "TRP-994",
+    "system": "DEV",
+    "owner": "Patrícia Gomes",
+    "status": "done",
+    "createdAt": "2025-05-05T16:52:50.959Z"
+  },
+  {
+    "id": "5988546a-e4a2-43ac-ac8d-d96f0f168dcd",
+    "requestId": "MAK-633",
+    "system": "DEV",
+    "owner": "Carlos Andrade",
+    "status": "done",
+    "createdAt": "2025-09-21T02:10:50.763Z"
+  },
+  {
+    "id": "a5c6e4a3-7603-4f9d-973c-43062e946667",
+    "requestId": "MAK-930",
+    "system": "DEV",
+    "owner": "Mariana Rocha",
+    "status": "in-progress",
+    "createdAt": "2025-07-15T16:25:48.825Z"
+  },
+  {
+    "id": "d8ac3081-3adb-4916-886c-258324ca9fc9",
+    "requestId": "REQ-958",
+    "system": "DEV",
+    "owner": "Maycon Reis",
+    "status": "pending",
+    "createdAt": "2025-06-13T00:37:52.737Z"
+  },
+  {
+    "id": "0079b451-88a5-4e9e-8849-b7d05b1a2518",
+    "requestId": "TRP-640",
+    "system": "PRD",
+    "owner": "Fernando Costa",
+    "status": "pending",
+    "createdAt": "2025-06-25T03:04:35.199Z"
+  },
+  {
+    "id": "226bed73-45d1-43ed-9dd2-5735dfe4fa5b",
+    "requestId": "TCH-095",
+    "system": "QAS",
+    "owner": "Carlos Andrade",
+    "status": "in-progress",
+    "createdAt": "2025-07-07T18:57:49.077Z"
+  },
+  {
+    "id": "43303cf9-8e66-4a78-9bf0-f244db186d8f",
+    "requestId": "TRP-270",
+    "system": "QAS",
+    "owner": "Guilherme Pimentel",
+    "status": "in-progress",
+    "createdAt": "2025-08-12T06:08:45.058Z"
+  },
+  {
+    "id": "98008517-3b85-428a-ba1a-37346a452afc",
+    "requestId": "TCH-272",
+    "system": "QAS",
+    "owner": "Mariana Rocha",
+    "status": "in-progress",
+    "createdAt": "2025-05-09T09:28:55.046Z"
+  },
+  {
+    "id": "736ce144-e524-4e03-9597-0541f7c16e26",
+    "requestId": "MAK-336",
+    "system": "DEV",
+    "owner": "Juliana Silva",
+    "status": "pending",
+    "createdAt": "2025-08-12T06:15:56.185Z"
+  },
+  {
+    "id": "24ec1fe0-043d-4580-80f5-4baa56eae2a9",
+    "requestId": "TCH-295",
+    "system": "DEV",
+    "owner": "Maycon Reis",
+    "status": "in-progress",
+    "createdAt": "2025-04-30T01:18:15.529Z"
+  },
+  {
+    "id": "cf0cb2f5-fbe9-46bd-ac96-ba35e69daba4",
+    "requestId": "TCH-718",
+    "system": "DEV",
+    "owner": "Maycon Reis",
+    "status": "error",
+    "createdAt": "2025-07-31T15:51:22.777Z"
+  },
+  {
+    "id": "6296e78a-2717-4f9b-94a5-acb9311dbc2c",
+    "requestId": "TCH-052",
+    "system": "DEV",
+    "owner": "Fernando Costa",
+    "status": "error",
+    "createdAt": "2025-03-14T12:08:37.700Z"
+  },
+  {
+    "id": "08818632-582b-4628-8917-8c996afd4acb",
+    "requestId": "TRP-532",
+    "system": "PRD",
+    "owner": "Carlos Andrade",
+    "status": "in-progress",
+    "createdAt": "2025-06-20T19:20:08.378Z"
+  },
+  {
+    "id": "a31df290-4077-4703-b15a-42140e65d831",
+    "requestId": "REQ-772",
+    "system": "QAS",
+    "owner": "Fernando Costa",
+    "status": "pending",
+    "createdAt": "2025-09-30T01:08:57.389Z"
+  },
+  {
+    "id": "3456b755-172a-4959-90fb-1197bb8610f1",
+    "requestId": "MAK-267",
+    "system": "DEV",
+    "owner": "Lucas Pereira",
+    "status": "pending",
+    "createdAt": "2025-03-23T18:02:26.682Z"
+  },
+  {
+    "id": "4d2ec342-d50e-459a-81a6-98de09bd027b",
+    "requestId": "TRP-198",
+    "system": "QAS",
+    "owner": "Maycon Reis",
+    "status": "in-progress",
+    "createdAt": "2025-03-22T04:30:24.333Z"
+  },
+  {
+    "id": "e7480696-e527-40b3-ae9a-5de8a488ee35",
+    "requestId": "REQ-578",
+    "system": "QAS",
+    "owner": "Juliana Silva",
+    "status": "in-progress",
+    "createdAt": "2025-03-28T05:21:33.193Z"
+  },
+  {
+    "id": "d914a6ea-cb74-4130-8b50-4a20ef48a5dc",
+    "requestId": "TRP-396",
+    "system": "QAS",
+    "owner": "Fernando Costa",
+    "status": "in-progress",
+    "createdAt": "2025-10-04T14:14:36.247Z"
+  },
+  {
+    "id": "75d19148-5488-4bb6-841f-959986c6485f",
+    "requestId": "MAK-619",
+    "system": "DEV",
+    "owner": "Lucas Pereira",
+    "status": "in-progress",
+    "createdAt": "2025-06-21T09:53:00.904Z"
+  },
+  {
+    "id": "92e01164-3277-4d69-b2e8-a60e14198c23",
+    "requestId": "TCH-908",
+    "system": "DEV",
+    "owner": "Lucas Pereira",
+    "status": "in-progress",
+    "createdAt": "2025-05-24T09:15:46.173Z"
+  },
+  {
+    "id": "d877c5b9-74d0-42de-b12a-ac301e9b0015",
+    "requestId": "TCH-579",
+    "system": "PRD",
+    "owner": "Guilherme Pimentel",
+    "status": "pending",
+    "createdAt": "2025-06-05T20:52:30.990Z"
+  },
+  {
+    "id": "ccb76a7f-1408-4b35-9dc2-f46d178f4843",
+    "requestId": "REQ-757",
+    "system": "QAS",
+    "owner": "Maycon Reis",
+    "status": "done",
+    "createdAt": "2025-06-14T22:27:43.311Z"
+  },
+  {
+    "id": "551423c0-30ed-4343-b0b6-69156c4d18aa",
+    "requestId": "REQ-651",
+    "system": "DEV",
+    "owner": "Fernando Costa",
+    "status": "done",
+    "createdAt": "2025-04-22T21:18:52.595Z"
+  },
+  {
+    "id": "71de27d8-64a9-4464-a6c4-fc1b66704231",
+    "requestId": "TRP-904",
+    "system": "PRD",
+    "owner": "Guilherme Pimentel",
+    "status": "in-progress",
+    "createdAt": "2025-07-26T16:37:40.102Z"
+  },
+  {
+    "id": "b91e4420-7319-40cd-b398-67ed5296732f",
+    "requestId": "REQ-430",
+    "system": "PRD",
+    "owner": "Lucas Pereira",
+    "status": "error",
+    "createdAt": "2025-09-09T09:05:17.113Z"
+  },
+  {
+    "id": "3a255189-79d3-4b6e-9f78-82d2ed91bafe",
+    "requestId": "TCH-533",
+    "system": "DEV",
+    "owner": "Carlos Andrade",
+    "status": "done",
+    "createdAt": "2025-05-17T01:52:50.309Z"
+  },
+  {
+    "id": "e20ef92e-add5-4d06-b91a-d3d34689bd4a",
+    "requestId": "TCH-569",
+    "system": "QAS",
+    "owner": "Fernando Costa",
+    "status": "in-progress",
+    "createdAt": "2025-03-21T17:28:22.211Z"
+  },
+  {
+    "id": "bb0cd621-b6e4-4aff-93ba-ad8a7b6dc3e6",
+    "requestId": "TRP-775",
+    "system": "PRD",
+    "owner": "Guilherme Pimentel",
+    "status": "done",
+    "createdAt": "2025-05-16T12:37:03.168Z"
+  },
+  {
+    "id": "175c4e36-a68b-422c-9c4d-060dd2b2219e",
+    "requestId": "TCH-064",
+    "system": "QAS",
+    "owner": "Juliana Silva",
+    "status": "pending",
+    "createdAt": "2025-03-28T00:09:59.071Z"
+  },
+  {
+    "id": "ff34914f-4b80-462d-b59b-bef5a861c5f2",
+    "requestId": "TCH-943",
+    "system": "QAS",
+    "owner": "Fernando Costa",
+    "status": "pending",
+    "createdAt": "2025-03-08T11:10:29.087Z"
+  },
+  {
+    "id": "3f32d6ac-5b61-41a0-89a1-1104bc7e080f",
+    "requestId": "TRP-250",
+    "system": "DEV",
+    "owner": "Carlos Andrade",
+    "status": "pending",
+    "createdAt": "2025-04-29T04:55:51.643Z"
+  },
+  {
+    "id": "1ee92798-6925-4885-943d-3d5a55758e01",
+    "requestId": "REQ-136",
+    "system": "QAS",
+    "owner": "Mariana Rocha",
+    "status": "in-progress",
+    "createdAt": "2025-07-30T22:15:06.260Z"
+  },
+  {
+    "id": "71389800-5776-4cfc-9274-b9514e1dcca3",
+    "requestId": "REQ-803",
+    "system": "PRD",
+    "owner": "Carlos Andrade",
+    "status": "done",
+    "createdAt": "2025-06-07T13:13:56.849Z"
+  },
+  {
+    "id": "e2d6a832-b550-476f-937a-6f8af70332bf",
+    "requestId": "TRP-129",
+    "system": "QAS",
+    "owner": "Carlos Andrade",
+    "status": "error",
+    "createdAt": "2025-10-14T15:58:48.890Z"
+  },
+  {
+    "id": "ad081c07-89d9-4ba5-b005-ba2ee88c64a0",
+    "requestId": "REQ-787",
+    "system": "DEV",
+    "owner": "Maycon Reis",
+    "status": "pending",
+    "createdAt": "2025-03-11T10:04:41.002Z"
+  },
+  {
+    "id": "9e7a9b2e-8e09-4c5e-b362-6bbd019150fe",
+    "requestId": "REQ-266",
+    "system": "DEV",
+    "owner": "Patrícia Gomes",
+    "status": "pending",
+    "createdAt": "2025-09-18T00:40:46.863Z"
+  },
+  {
+    "id": "622bbb5f-65af-4c4e-9258-8f2fbd19003b",
+    "requestId": "MAK-979",
+    "system": "PRD",
+    "owner": "Carlos Andrade",
+    "status": "in-progress",
+    "createdAt": "2025-09-25T00:13:17.779Z"
+  },
+  {
+    "id": "a11c928c-3575-4a64-b294-076b975d821a",
+    "requestId": "TRP-535",
+    "system": "DEV",
+    "owner": "Carlos Andrade",
+    "status": "in-progress",
+    "createdAt": "2025-09-22T19:04:34.719Z"
+  },
+  {
+    "id": "92a0a450-f032-4061-8986-f1e62b0d6e99",
+    "requestId": "REQ-279",
+    "system": "QAS",
+    "owner": "Juliana Silva",
+    "status": "done",
+    "createdAt": "2025-06-18T13:50:15.492Z"
+  },
+  {
+    "id": "6507bc99-eb5f-4895-8c06-c858ae6ed683",
+    "requestId": "REQ-442",
+    "system": "DEV",
+    "owner": "Maycon Reis",
+    "status": "done",
+    "createdAt": "2025-05-06T00:00:01.135Z"
+  },
+  {
+    "id": "fc7eaad1-3a0f-4118-8445-194bfdc6950c",
+    "requestId": "TRP-985",
+    "system": "PRD",
+    "owner": "Patrícia Gomes",
+    "status": "error",
+    "createdAt": "2025-09-17T09:55:53.448Z"
+  },
+  {
+    "id": "6986027e-7dab-41ec-beda-0c5278450985",
+    "requestId": "REQ-739",
+    "system": "PRD",
+    "owner": "Patrícia Gomes",
+    "status": "done",
+    "createdAt": "2025-05-17T03:50:31.169Z"
+  },
+  {
+    "id": "69610999-57d3-4223-a530-eb5fa64b1750",
+    "requestId": "TCH-526",
+    "system": "QAS",
+    "owner": "Patrícia Gomes",
+    "status": "pending",
+    "createdAt": "2025-03-06T08:38:10.262Z"
+  },
+  {
+    "id": "d3532693-975b-4f99-9155-043f0f216700",
+    "requestId": "MAK-255",
+    "system": "DEV",
+    "owner": "Patrícia Gomes",
+    "status": "in-progress",
+    "createdAt": "2025-03-14T19:13:12.978Z"
+  },
+  {
+    "id": "fd21d34c-81e8-405f-b28d-eceba1d1bb38",
+    "requestId": "TRP-178",
+    "system": "QAS",
+    "owner": "Carlos Andrade",
+    "status": "done",
+    "createdAt": "2025-03-05T22:06:09.939Z"
+  },
+  {
+    "id": "159f25f0-225b-48f4-9efa-4e1de546505f",
+    "requestId": "TCH-741",
+    "system": "QAS",
+    "owner": "Patrícia Gomes",
+    "status": "in-progress",
+    "createdAt": "2025-04-19T05:05:09.712Z"
+  },
+  {
+    "id": "2885b8f5-62a2-4813-b9dd-2690710b5bc4",
+    "requestId": "TCH-072",
+    "system": "DEV",
+    "owner": "Fernando Costa",
+    "status": "pending",
+    "createdAt": "2025-07-03T19:56:31.752Z"
+  },
+  {
+    "id": "738ff5f2-6cce-4b11-904e-9392b2579f28",
+    "requestId": "REQ-122",
+    "system": "PRD",
+    "owner": "Patrícia Gomes",
+    "status": "done",
+    "createdAt": "2025-09-29T23:46:14.307Z"
+  },
+  {
+    "id": "02124ea5-d427-4065-a09a-c634e5468b3a",
+    "requestId": "TRP-991",
+    "system": "DEV",
+    "owner": "Juliana Silva",
+    "status": "in-progress",
+    "createdAt": "2025-09-17T09:01:41.367Z"
+  },
+  {
+    "id": "0fbe4ab0-de0a-472c-ad8d-5a12f7419257",
+    "requestId": "MAK-841",
+    "system": "PRD",
+    "owner": "Mariana Rocha",
+    "status": "in-progress",
+    "createdAt": "2025-05-15T19:01:57.673Z"
+  },
+  {
+    "id": "d17c8307-fe4c-4c53-abc9-83728407876f",
+    "requestId": "TCH-119",
+    "system": "QAS",
+    "owner": "Carlos Andrade",
+    "status": "done",
+    "createdAt": "2025-03-08T06:39:55.119Z"
+  },
+  {
+    "id": "2c078e8b-5f93-458b-9612-77297ec3d5d3",
+    "requestId": "REQ-696",
+    "system": "PRD",
+    "owner": "Patrícia Gomes",
+    "status": "done",
+    "createdAt": "2025-07-27T06:03:03.182Z"
+  },
+  {
+    "id": "36bf3159-192b-40b5-8625-0860951a8c37",
+    "requestId": "TCH-953",
+    "system": "DEV",
+    "owner": "Mariana Rocha",
+    "status": "in-progress",
+    "createdAt": "2025-06-09T11:36:16.364Z"
+  },
+  {
+    "id": "3f74ff53-c202-4624-834f-8335998d1ad6",
+    "requestId": "TRP-416",
+    "system": "QAS",
+    "owner": "Maycon Reis",
+    "status": "in-progress",
+    "createdAt": "2025-06-07T12:52:49.289Z"
+  },
+  {
+    "id": "3f009313-af09-49b9-866b-451352409a4e",
+    "requestId": "MAK-919",
+    "system": "PRD",
+    "owner": "Mariana Rocha",
+    "status": "done",
+    "createdAt": "2025-08-24T13:54:54.765Z"
+  },
+  {
+    "id": "af0aa474-b235-409f-bfab-ab46a92059f7",
+    "requestId": "REQ-602",
+    "system": "DEV",
+    "owner": "Patrícia Gomes",
+    "status": "done",
+    "createdAt": "2025-08-01T22:23:49.009Z"
+  },
+  {
+    "id": "7d4c0c18-9d03-49a6-bd32-a4cb4735ce94",
+    "requestId": "TCH-661",
+    "system": "PRD",
+    "owner": "Maycon Reis",
+    "status": "in-progress",
+    "createdAt": "2025-02-23T12:12:54.965Z"
+  },
+  {
+    "id": "6d834480-ce4d-4db3-8d0e-936396c58684",
+    "requestId": "TCH-987",
+    "system": "DEV",
+    "owner": "Fernando Costa",
+    "status": "done",
+    "createdAt": "2025-05-06T01:55:53.539Z"
+  },
+  {
+    "id": "813a232f-32d6-46c9-b2d1-ef8fcd40e9dc",
+    "requestId": "REQ-405",
+    "system": "QAS",
+    "owner": "Patrícia Gomes",
+    "status": "done",
+    "createdAt": "2025-05-04T09:50:55.466Z"
+  },
+  {
+    "id": "9eb473be-bad5-44d4-8ed9-19df5a01425d",
+    "requestId": "REQ-410",
+    "system": "QAS",
+    "owner": "Maycon Reis",
+    "status": "in-progress",
+    "createdAt": "2025-02-19T01:58:44.980Z"
+  },
+  {
+    "id": "81dd18cc-3e16-4999-80e8-7651eaa42d5d",
+    "requestId": "TCH-824",
+    "system": "QAS",
+    "owner": "Lucas Pereira",
+    "status": "done",
+    "createdAt": "2025-02-28T02:58:31.639Z"
+  },
+  {
+    "id": "2026af09-df16-4056-a7c8-4a2b7b7a6b92",
+    "requestId": "TRP-200",
+    "system": "DEV",
+    "owner": "Patrícia Gomes",
+    "status": "pending",
+    "createdAt": "2025-08-06T08:49:04.016Z"
+  },
+  {
+    "id": "ae9b311e-f9d2-4b54-81a0-8b1fc5207210",
+    "requestId": "REQ-404",
+    "system": "DEV",
+    "owner": "Patrícia Gomes",
+    "status": "done",
+    "createdAt": "2025-06-09T13:15:06.495Z"
+  },
+  {
+    "id": "8ade71a0-1c7c-4ada-8c6c-2f6d5bf3985b",
+    "requestId": "TCH-810",
+    "system": "DEV",
+    "owner": "Mariana Rocha",
+    "status": "in-progress",
+    "createdAt": "2025-04-19T10:55:56.463Z"
+  },
+  {
+    "id": "41bee7a2-f54e-4d20-8ebd-62d97950c60c",
+    "requestId": "MAK-412",
+    "system": "PRD",
+    "owner": "Fernando Costa",
+    "status": "in-progress",
+    "createdAt": "2025-02-23T04:14:33.460Z"
+  },
+  {
+    "id": "c636c50a-0a36-4410-b241-38d89af35608",
+    "requestId": "TCH-955",
+    "system": "DEV",
+    "owner": "Lucas Pereira",
+    "status": "in-progress",
+    "createdAt": "2025-03-06T00:11:50.962Z"
   }
 ]

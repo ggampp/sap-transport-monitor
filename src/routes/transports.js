@@ -6,8 +6,21 @@ const router = express.Router()
 const FILE = "transports.json"
 
 router.get("/", async (req, res) => {
+  const { from, to } = req.query || {}
   const items = await readJson(FILE, [])
-  res.json(items)
+  if(!from && !to){
+    return res.json(items)
+  }
+  const startOfDay = (d)=>{ const x = new Date(d); x.setHours(0,0,0,0); return x }
+  const fromDate = from ? startOfDay(new Date(from)) : null
+  const toDate   = to ? new Date(startOfDay(new Date(to)).getTime()+86400000-1) : null
+  const filtered = items.filter(t => {
+    const dt = new Date(t.createdAt)
+    if(fromDate && dt < fromDate) return false
+    if(toDate && dt > toDate) return false
+    return true
+  })
+  res.json(filtered)
 })
 
 router.post("/", async (req, res) => {

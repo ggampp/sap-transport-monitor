@@ -18,6 +18,7 @@ app.get("/health", function(req, res){
 app.use("/api/transports", require("./src/routes/transports"))
 app.use("/api/notes", require("./src/routes/notes"))
 app.use("/api/upgrades", require("./src/routes/upgrades"))
+app.use("/api/analytics", require("./src/routes/analytics"))
 
 // Root -> serve dashboard
 app.get("/", function(req, res){
