@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Demo - SAP Basis Cockpit</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <nav class="sidebar">
+      <h2>SAP Basis Cockpit</h2>
+      <ul>
+        <li><a href="/">Dashboard</a></li>
+        <li><a href="/profiles.html">Gestão de Perfis</a></li>
+        <li><a href="/roles.html">Gestão de Papéis</a></li>
+        <li><a href="/assignments.html">Atribuições</a></li>
+        <li><a href="/demo.html" class="active">Demo CSS</a></li>
+      </ul>
+    </nav>
+    <div class="main-content">
+      <header>
+        <h1>Demonstração de Componentes CSS</h1>
+      </header>
+      <main>
+        <!-- Buttons Demo -->
+        <section class="card">
+          <h2>Botões Modernos</h2>
+          <div style="display: flex; gap: 16px; flex-wrap: wrap; margin: 20px 0;">
+            <button class="btn">Botão Padrão</button>
+            <button class="btn btn-secondary">Botão Secundário</button>
+            <button class="btn btn-success">Botão Sucesso</button>
+            <button class="btn btn-danger">Botão Perigo</button>
+          </div>
+          <p>Estes botões possuem efeitos de hover, animações e gradientes modernos inspirados no uiverse.io</p>
+        </section>
+
+        <!-- Inputs Demo -->
+        <section class="card">
+          <h2>Campos de Entrada Modernos</h2>
+          <form style="display: flex; gap: 16px; flex-wrap: wrap; margin: 20px 0;">
+            <div class="form-group">
+              <label for="demo-input">Campo de Texto</label>
+              <input type="text" id="demo-input" placeholder="Digite algo aqui..." />
+            </div>
+            <div class="form-group">
+              <label for="demo-select">Seleção</label>
+              <select id="demo-select">
+                <option value="">Escolha uma opção</option>
+                <option value="1">Opção 1</option>
+                <option value="2">Opção 2</option>
+                <option value="3">Opção 3</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="demo-textarea">Área de Texto</label>
+              <textarea id="demo-textarea" placeholder="Digite uma mensagem..." rows="3"></textarea>
+            </div>
+          </form>
+          <p>Os campos possuem efeitos de foco, hover e transições suaves</p>
+        </section>
+
+        <!-- Status Badges Demo -->
+        <section class="card">
+          <h2>Badges de Status</h2>
+          <div style="display: flex; gap: 16px; flex-wrap: wrap; margin: 20px 0;">
+            <span class="status pending">Pendente</span>
+            <span class="status in-progress">Em Progresso</span>
+            <span class="status done">Concluído</span>
+          </div>
+          <p>Badges com gradientes e sombras para indicar status</p>
+        </section>
+
+        <!-- Table Demo -->
+        <section class="card">
+          <h2>Tabela Moderna</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>Status</th>
+                <th>Data</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>João Silva</td>
+                <td><span class="status pending">Pendente</span></td>
+                <td>2024-01-15</td>
+                <td>
+                  <button class="btn" style="padding: 6px 12px; font-size: 12px;">Editar</button>
+                  <button class="btn btn-danger" style="padding: 6px 12px; font-size: 12px;">Excluir</button>
+                </td>
+              </tr>
+              <tr>
+                <td>Maria Souza</td>
+                <td><span class="status in-progress">Em Progresso</span></td>
+                <td>2024-01-14</td>
+                <td>
+                  <button class="btn" style="padding: 6px 12px; font-size: 12px;">Editar</button>
+                  <button class="btn btn-danger" style="padding: 6px 12px; font-size: 12px;">Excluir</button>
+                </td>
+              </tr>
+              <tr>
+                <td>Carlos Santos</td>
+                <td><span class="status done">Concluído</span></td>
+                <td>2024-01-13</td>
+                <td>
+                  <button class="btn" style="padding: 6px 12px; font-size: 12px;">Editar</button>
+                  <button class="btn btn-danger" style="padding: 6px 12px; font-size: 12px;">Excluir</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <p>Tabela com hover effects e cabeçalho com gradiente</p>
+        </section>
+
+        <!-- Cards Demo -->
+        <section class="card">
+          <h2>Cards Interativos</h2>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 20px 0;">
+            <div class="card">
+              <h3>Card 1</h3>
+              <p>Este é um exemplo de card com efeito hover e backdrop blur.</p>
+              <button class="btn btn-success">Ação</button>
+            </div>
+            <div class="card">
+              <h3>Card 2</h3>
+              <p>Os cards possuem animações suaves e sombras modernas.</p>
+              <button class="btn btn-secondary">Ação</button>
+            </div>
+            <div class="card">
+              <h3>Card 3</h3>
+              <p>Design responsivo e glassmorphism para um visual moderno.</p>
+              <button class="btn btn-danger">Ação</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Features List -->
+        <section class="card">
+          <h2>Características do Design</h2>
+          <ul style="list-style: none; padding: 0;">
+            <li style="margin: 10px 0; padding: 10px; background: rgba(102, 126, 234, 0.1); border-radius: 8px;">
+              <strong>🎨 Gradientes Modernos:</strong> Botões e elementos com gradientes vibrantes
+            </li>
+            <li style="margin: 10px 0; padding: 10px; background: rgba(102, 126, 234, 0.1); border-radius: 8px;">
+              <strong>✨ Animações Suaves:</strong> Transições e hover effects fluidos
+            </li>
+            <li style="margin: 10px 0; padding: 10px; background: rgba(102, 126, 234, 0.1); border-radius: 8px;">
+              <strong>🔍 Glassmorphism:</strong> Efeito de vidro com backdrop blur
+            </li>
+            <li style="margin: 10px 0; padding: 10px; background: rgba(102, 126, 234, 0.1); border-radius: 8px;">
+              <strong>📱 Responsivo:</strong> Design adaptável para diferentes telas
+            </li>
+            <li style="margin: 10px 0; padding: 10px; background: rgba(102, 126, 234, 0.1); border-radius: 8px;">
+              <strong>🎯 UX Moderna:</strong> Interface intuitiva e acessível
+            </li>
+          </ul>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>

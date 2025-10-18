@@ -13,7 +13,9 @@
         <li><a href="/">Dashboard</a></li>
         <li><a href="/analytics.html">Analytics</a></li>
         <li><a href="/users.html">Gestão de Usuários</a></li>
-        <li><a href="/profiles.html">Perfis e Papéis</a></li>
+        <li><a href="/profiles.html">Gestão de Perfis</a></li>
+        <li><a href="/roles.html">Gestão de Papéis</a></li>
+        <li><a href="/assignments.html">Atribuições</a></li>
         <li><a href="/audit.html" class="active">Log de Auditoria</a></li>
         <li><a href="/metrics.html">Métricas</a></li>
       </ul>
@@ -24,7 +26,7 @@
       </header>
       <main>
         <!-- Filters -->
-        <section>
+        <section class="card">
           <h2>Filtros</h2>
           <form id="audit-filters">
             <select id="action-filter">
@@ -50,7 +52,7 @@
         </section>
 
         <!-- Audit Logs -->
-        <section>
+        <section class="card">
           <h2>Logs de Auditoria</h2>
           <div id="audit-stats" style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:16px">
             <div style="background:#f8f9fa;padding:12px;border-radius:6px;text-align:center">
@@ -236,6 +238,21 @@
         e.preventDefault();
         loadAuditLogs();
       });
+
+      function toggleSubmenu(element) {
+        const submenu = element.querySelector('.submenu');
+        const isOpen = submenu.classList.contains('show');
+        
+        // Close all other submenus
+        document.querySelectorAll('.submenu').forEach(sm => sm.classList.remove('show'));
+        document.querySelectorAll('.has-submenu').forEach(li => li.classList.remove('open'));
+        
+        // Toggle current submenu
+        if (!isOpen) {
+          submenu.classList.add('show');
+          element.classList.add('open');
+        }
+      }
 
       // Initialize
       loadUsers();

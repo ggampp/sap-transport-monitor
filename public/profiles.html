@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Perfis e Papéis - Cockpit SAP Basis</title>
+    <title>Gestão de Perfis - Cockpit SAP Basis</title>
     <link rel="stylesheet" href="/styles.css" />
   </head>
   <body>
@@ -13,28 +13,44 @@
         <li><a href="/">Dashboard</a></li>
         <li><a href="/analytics.html">Analytics</a></li>
         <li><a href="/users.html">Gestão de Usuários</a></li>
-        <li><a href="/profiles.html" class="active">Perfis e Papéis</a></li>
+        <li><a href="/profiles.html" class="active">Gestão de Perfis</a></li>
+        <li><a href="/roles.html">Gestão de Papéis</a></li>
+        <li><a href="/assignments.html">Atribuições</a></li>
         <li><a href="/audit.html">Log de Auditoria</a></li>
         <li><a href="/metrics.html">Métricas</a></li>
       </ul>
     </nav>
     <div class="main-content">
       <header>
-        <h1>Gestão de Perfis e Papéis</h1>
+        <h1>Perfis e Papéis</h1>
+        <nav>
+          <button data-tab="profiles" class="active">Perfis</button>
+          <button data-tab="roles">Papéis</button>
+          <button data-tab="assignments">Atribuições</button>
+        </nav>
       </header>
       <main>
-        <!-- Profile Management -->
-        <section>
+        <!-- Profiles Tab -->
+        <section id="profiles" class="tab active card">
           <h2>Gestão de Perfis</h2>
           <form id="profile-form">
-            <input name="profileName" placeholder="Nome do Perfil" required />
-            <input name="description" placeholder="Descrição" />
-            <select name="category">
-              <option value="functional">Funcional</option>
-              <option value="technical">Técnico</option>
-              <option value="administrative">Administrativo</option>
-            </select>
-            <button type="submit">Criar Perfil</button>
+            <div class="form-group">
+              <label for="profileName">Nome do Perfil</label>
+              <input name="profileName" placeholder="Nome do Perfil" required />
+            </div>
+            <div class="form-group">
+              <label for="description">Descrição</label>
+              <input name="description" placeholder="Descrição" />
+            </div>
+            <div class="form-group">
+              <label for="category">Categoria</label>
+              <select name="category">
+                <option value="functional">Funcional</option>
+                <option value="technical">Técnico</option>
+                <option value="administrative">Administrativo</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-success">Criar Perfil</button>
           </form>
           <table id="profiles-table">
             <thead>
@@ -44,18 +60,27 @@
           </table>
         </section>
 
-        <!-- Role Management -->
-        <section>
+        <!-- Roles Tab -->
+        <section id="roles" class="tab card">
           <h2>Gestão de Papéis</h2>
           <form id="role-form">
-            <input name="roleName" placeholder="Nome do Papel" required />
-            <input name="description" placeholder="Descrição" />
-            <select name="type">
-              <option value="authorization">Autorização</option>
-              <option value="business">Negócio</option>
-              <option value="system">Sistema</option>
-            </select>
-            <button type="submit">Criar Papel</button>
+            <div class="form-group">
+              <label for="roleName">Nome do Papel</label>
+              <input name="roleName" placeholder="Nome do Papel" required />
+            </div>
+            <div class="form-group">
+              <label for="description">Descrição</label>
+              <input name="description" placeholder="Descrição" />
+            </div>
+            <div class="form-group">
+              <label for="type">Tipo</label>
+              <select name="type">
+                <option value="authorization">Autorização</option>
+                <option value="business">Negócio</option>
+                <option value="system">Sistema</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-success">Criar Papel</button>
           </form>
           <table id="roles-table">
             <thead>
@@ -65,41 +90,49 @@
           </table>
         </section>
 
-        <!-- User Assignment -->
-        <section>
+        <!-- Assignments Tab -->
+        <section id="assignments" class="tab card">
           <h2>Atribuição de Perfis e Papéis</h2>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:24px">
             <div>
               <h3>Atribuir Perfil</h3>
               <form id="assign-profile-form">
-                <select id="user-select-profile" required>
-                  <option value="">Selecione o usuário</option>
-                </select>
-                <select id="profile-select" required>
-                  <option value="">Selecione o perfil</option>
-                </select>
-                <button type="submit">Atribuir Perfil</button>
+                <div class="form-group">
+                  <label for="user-select-profile">Usuário</label>
+                  <select id="user-select-profile">
+                    <option value="">Selecione o usuário</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="profile-select">Perfil</label>
+                  <select id="profile-select">
+                    <option value="">Selecione o perfil</option>
+                  </select>
+                </div>
+                <button type="submit" class="btn btn-success">Atribuir Perfil</button>
               </form>
             </div>
             <div>
               <h3>Atribuir Papel</h3>
               <form id="assign-role-form">
-                <select id="user-select-role" required>
-                  <option value="">Selecione o usuário</option>
-                </select>
-                <select id="role-select" required>
-                  <option value="">Selecione o papel</option>
-                </select>
-                <button type="submit">Atribuir Papel</button>
+                <div class="form-group">
+                  <label for="user-select-role">Usuário</label>
+                  <select id="user-select-role">
+                    <option value="">Selecione o usuário</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="role-select">Papel</label>
+                  <select id="role-select">
+                    <option value="">Selecione o papel</option>
+                  </select>
+                </div>
+                <button type="submit" class="btn btn-success">Atribuir Papel</button>
               </form>
             </div>
           </div>
-        </section>
-
-        <!-- Current Assignments -->
-        <section>
-          <h2>Atribuições Atuais</h2>
-          <div id="assignments-container">
+          <div id="current-assignments">
+            <h3>Atribuições Atuais</h3>
             <p>Selecione um usuário para ver suas atribuições</p>
           </div>
         </section>
@@ -107,8 +140,6 @@
     </div>
     <script>
       let profiles = [];
-      let roles = [];
-      let users = [];
 
       // Helper functions
       async function api(path, options = {}) {
@@ -118,18 +149,6 @@
         });
         if (!res.ok) throw new Error(await res.text());
         return res.json();
-      }
-
-      // Load data
-      async function loadData() {
-        try {
-          users = await api('/api/users');
-          loadProfiles();
-          loadRoles();
-          populateUserSelects();
-        } catch (error) {
-          console.error('Erro ao carregar dados:', error);
-        }
       }
 
       // Profile Management
@@ -162,161 +181,10 @@
         profile.userCount = 0;
         profiles.push(profile);
         loadProfiles();
-        populateProfileSelect();
         e.target.reset();
       });
 
-      // Role Management
-      async function loadRoles() {
-        // Mock data for roles
-        roles = [
-          { id: '1', roleName: 'ADMIN_ROLE', description: 'Papel administrativo', type: 'authorization', userCount: 3 },
-          { id: '2', roleName: 'DEVELOPER_ROLE', description: 'Papel de desenvolvedor', type: 'business', userCount: 8 },
-          { id: '3', roleName: 'USER_ROLE', description: 'Papel de usuário', type: 'system', userCount: 200 }
-        ];
-        
-        const tbody = document.querySelector('#roles-table tbody');
-        tbody.innerHTML = roles.map(r => `<tr>
-          <td>${r.roleName}</td>
-          <td>${r.description}</td>
-          <td>${r.type}</td>
-          <td>${r.userCount}</td>
-          <td class="actions">
-            <button onclick="editRole('${r.id}')">Editar</button>
-            <button onclick="deleteRole('${r.id}')">Excluir</button>
-          </td>
-        </tr>`).join('');
-      }
-
-      document.getElementById('role-form').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const form = new FormData(e.target);
-        const role = Object.fromEntries(form);
-        role.id = Date.now().toString();
-        role.userCount = 0;
-        roles.push(role);
-        loadRoles();
-        populateRoleSelect();
-        e.target.reset();
-      });
-
-      // Populate selects
-      function populateUserSelects() {
-        const userSelects = ['user-select-profile', 'user-select-role'];
-        userSelects.forEach(selectId => {
-          const select = document.getElementById(selectId);
-          select.innerHTML = '<option value="">Selecione o usuário</option>' +
-            users.map(u => `<option value="${u.id}">${u.username} - ${u.fullName}</option>`).join('');
-        });
-      }
-
-      function populateProfileSelect() {
-        const select = document.getElementById('profile-select');
-        select.innerHTML = '<option value="">Selecione o perfil</option>' +
-          profiles.map(p => `<option value="${p.profileName}">${p.profileName}</option>`).join('');
-      }
-
-      function populateRoleSelect() {
-        const select = document.getElementById('role-select');
-        select.innerHTML = '<option value="">Selecione o papel</option>' +
-          roles.map(r => `<option value="${r.roleName}">${r.roleName}</option>`).join('');
-      }
-
-      // Assignment forms
-      document.getElementById('assign-profile-form').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const userId = document.getElementById('user-select-profile').value;
-        const profileName = document.getElementById('profile-select').value;
-        
-        if (!userId || !profileName) return;
-        
-        try {
-          await api(`/api/users/${userId}/profiles`, {
-            method: 'POST',
-            body: JSON.stringify({ profileName })
-          });
-          alert('Perfil atribuído com sucesso!');
-          loadUserAssignments(userId);
-        } catch (error) {
-          alert('Erro ao atribuir perfil: ' + error.message);
-        }
-      });
-
-      document.getElementById('assign-role-form').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const userId = document.getElementById('user-select-role').value;
-        const roleName = document.getElementById('role-select').value;
-        
-        if (!userId || !roleName) return;
-        
-        try {
-          await api(`/api/users/${userId}/roles`, {
-            method: 'POST',
-            body: JSON.stringify({ roleName })
-          });
-          alert('Papel atribuído com sucesso!');
-          loadUserAssignments(userId);
-        } catch (error) {
-          alert('Erro ao atribuir papel: ' + error.message);
-        }
-      });
-
-      // Load user assignments
-      async function loadUserAssignments(userId) {
-        try {
-          const user = await api(`/api/users/${userId}`);
-          const container = document.getElementById('assignments-container');
-          container.innerHTML = `
-            <h3>Atribuições de ${user.username}</h3>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
-              <div>
-                <h4>Perfis (${user.profiles.length})</h4>
-                <ul>${user.profiles.map(p => `<li>${p} <button onclick="removeProfile('${userId}', '${p}')">Remover</button></li>`).join('')}</ul>
-              </div>
-              <div>
-                <h4>Papéis (${user.roles.length})</h4>
-                <ul>${user.roles.map(r => `<li>${r} <button onclick="removeRole('${userId}', '${r}')">Remover</button></li>`).join('')}</ul>
-              </div>
-            </div>
-          `;
-        } catch (error) {
-          console.error('Erro ao carregar atribuições:', error);
-        }
-      }
-
-      // Event listeners for user selection
-      document.getElementById('user-select-profile').addEventListener('change', (e) => {
-        if (e.target.value) loadUserAssignments(e.target.value);
-      });
-
-      document.getElementById('user-select-role').addEventListener('change', (e) => {
-        if (e.target.value) loadUserAssignments(e.target.value);
-      });
-
-      // Remove functions
-      window.removeProfile = async (userId, profileName) => {
-        if (confirm(`Remover perfil ${profileName}?`)) {
-          try {
-            await api(`/api/users/${userId}/profiles/${profileName}`, { method: 'DELETE' });
-            loadUserAssignments(userId);
-          } catch (error) {
-            alert('Erro ao remover perfil: ' + error.message);
-          }
-        }
-      };
-
-      window.removeRole = async (userId, roleName) => {
-        if (confirm(`Remover papel ${roleName}?`)) {
-          try {
-            await api(`/api/users/${userId}/roles/${roleName}`, { method: 'DELETE' });
-            loadUserAssignments(userId);
-          } catch (error) {
-            alert('Erro ao remover papel: ' + error.message);
-          }
-        }
-      };
-
-      // Mock functions for profile/role management
+      // Mock functions for profile management
       window.editProfile = (id) => {
         const profile = profiles.find(p => p.id === id);
         if (profile) {
@@ -330,29 +198,47 @@
         if (confirm('Excluir este perfil?')) {
           profiles = profiles.filter(p => p.id !== id);
           loadProfiles();
-          populateProfileSelect();
         }
       };
 
-      window.editRole = (id) => {
-        const role = roles.find(r => r.id === id);
-        if (role) {
-          document.getElementById('role-form').roleName.value = role.roleName;
-          document.getElementById('role-form').description.value = role.description;
-          document.getElementById('role-form').type.value = role.type;
+      function toggleSubmenu(element) {
+        const submenu = element.querySelector('.submenu');
+        const isOpen = submenu.classList.contains('show');
+        
+        // Close all other submenus
+        document.querySelectorAll('.submenu').forEach(sm => sm.classList.remove('show'));
+        document.querySelectorAll('.has-submenu').forEach(li => li.classList.remove('open'));
+        
+        // Toggle current submenu
+        if (!isOpen) {
+          submenu.classList.add('show');
+          element.classList.add('open');
         }
-      };
+      }
 
-      window.deleteRole = (id) => {
-        if (confirm('Excluir este papel?')) {
-          roles = roles.filter(r => r.id !== id);
-          loadRoles();
-          populateRoleSelect();
-        }
-      };
+      // Tab Management
+      function initTabs() {
+        const tabButtons = document.querySelectorAll('nav button[data-tab]');
+        const tabSections = document.querySelectorAll('.tab');
+
+        tabButtons.forEach(button => {
+          button.addEventListener('click', () => {
+            const targetTab = button.getAttribute('data-tab');
+            
+            // Remove active class from all buttons and sections
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            tabSections.forEach(section => section.classList.remove('active'));
+            
+            // Add active class to clicked button and corresponding section
+            button.classList.add('active');
+            document.getElementById(targetTab).classList.add('active');
+          });
+        });
+      }
 
       // Initialize
-      loadData();
+      loadProfiles();
+      initTabs();
     </script>
   </body>
 </html>

@@ -14,7 +14,9 @@
         <li><a href="/">Dashboard</a></li>
         <li><a href="/analytics.html" class="active">Analytics</a></li>
         <li><a href="/users.html">Gestão de Usuários</a></li>
-        <li><a href="/profiles.html">Perfis e Papéis</a></li>
+        <li><a href="/profiles.html">Gestão de Perfis</a></li>
+        <li><a href="/roles.html">Gestão de Papéis</a></li>
+        <li><a href="/assignments.html">Atribuições</a></li>
         <li><a href="/audit.html">Log de Auditoria</a></li>
         <li><a href="/metrics.html">Métricas</a></li>
       </ul>
@@ -24,16 +26,22 @@
         <h1>Analytics de Transportes</h1>
       </header>
       <main>
-      <section>
+      <section class="card">
         <h2>Filtro de Período</h2>
         <form id="period-form">
-          <input type="date" id="from" name="from" />
-          <input type="date" id="to" name="to" />
-          <button type="submit">Aplicar</button>
-          <button type="button" id="clear">Limpar</button>
+          <div class="form-group">
+            <label for="from">Data Inicial</label>
+            <input type="date" id="from" name="from" />
+          </div>
+          <div class="form-group">
+            <label for="to">Data Final</label>
+            <input type="date" id="to" name="to" />
+          </div>
+          <button type="submit" class="btn btn-success">Aplicar</button>
+          <button type="button" id="clear" class="btn btn-secondary">Limpar</button>
         </form>
       </section>
-      <section style="display:grid;grid-template-columns:2fr 1fr;gap:16px;align-items:start">
+      <section class="card" style="display:grid;grid-template-columns:2fr 1fr;gap:24px;align-items:start">
         <div>
           <h3>Transportes por dia por status</h3>
           <canvas id="barChart" height="160"></canvas>
@@ -66,7 +74,7 @@
         const totalsByStatus = {};
         const statusesSet = new Set();
         for(const t of items){
-          const day = fmtDay(t.createdAt);
+          const day = fmtDay(t.created_at || t.createdAt);
           const st = t.status || 'pending';
           statusesSet.add(st);
           if(!perDay[day]) perDay[day] = {};
@@ -85,7 +93,7 @@
         const fromDate = from ? startOfDay(new Date(from)) : null;
         const toDate = to ? new Date(startOfDay(new Date(to)).getTime()+86400000-1) : null;
         return items.filter(it => {
-          const dt = new Date(it.createdAt);
+          const dt = new Date(it.created_at || it.createdAt);
           if(fromDate && dt < fromDate) return false;
           if(toDate && dt > toDate) return false;
           return true;
@@ -152,11 +160,26 @@
       document.getElementById('period-form').addEventListener('submit', (e)=>{ e.preventDefault(); load(); });
       document.getElementById('clear').addEventListener('click', ()=>{ setCurrentMonth(); load(); });
 
+      function toggleSubmenu(element) {
+        const submenu = element.querySelector('.submenu');
+        const isOpen = submenu.classList.contains('show');
+        
+        // Close all other submenus
+        document.querySelectorAll('.submenu').forEach(sm => sm.classList.remove('show'));
+        document.querySelectorAll('.has-submenu').forEach(li => li.classList.remove('open'));
+        
+        // Toggle current submenu
+        if (!isOpen) {
+          submenu.classList.add('show');
+          element.classList.add('open');
+        }
+      }
+
       // Init
       setCurrentMonth();
       load();
     </script>
   </body>
-  </html>
+</html>
 
 

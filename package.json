@@ -1,19 +1,29 @@
 {
-  "name": "simple-app",
+  "name": "sap-basis-cockpit",
   "version": "1.0.0",
   "private": true,
   "engines": { "node": "20.x" },
-  "description": "",
+  "description": "SAP Basis Cockpit - Comprehensive monitoring and administration",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "NODE_ENV=development node server.js"
+    "dev": "NODE_ENV=development node server.js",
+    "dev:setup": "chmod +x scripts/dev-setup.sh && ./scripts/dev-setup.sh",
+    "dev:full": "chmod +x scripts/dev-full.sh && ./scripts/dev-full.sh",
+    "dev:docker": "docker-compose up -d",
+    "dev:stop": "docker-compose down",
+    "dev:logs": "docker-compose logs -f",
+    "deploybtp": "chmod +x scripts/btp-deploy.sh && ./scripts/btp-deploy.sh",
+    "db:reset": "docker-compose down -v && docker-compose up -d postgres",
+    "db:logs": "docker-compose logs postgres"
   },
-  "keywords": [],
+  "keywords": ["sap", "basis", "cockpit", "monitoring", "administration"],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "express": "^5.1.0",
-    "uuid": "^9.0.1"
+    "uuid": "^9.0.1",
+    "pg": "^8.11.3",
+    "dotenv": "^16.3.1"
   }
 }

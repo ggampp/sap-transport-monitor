@@ -1,43 +1,50 @@
 const express = require("express")
-const { v4: uuidv4 } = require("uuid")
-const { readJson, writeJson } = require("../storage/jsonStore")
+const upgradeService = require("../database/upgradeService")
 const router = express.Router()
 
-const FILE = "upgrades.json"
-
 router.get("/", async (req, res) => {
-  const items = await readJson(FILE, [])
-  res.json(items)
+  try {
+    const upgrades = await upgradeService.getAllUpgrades()
+    res.json(upgrades)
+  } catch (error) {
+    res.status(500).json({ error: error.message })
+  }
 })
 
 router.post("/", async (req, res) => {
-  const { name, window, owner } = req.body || {}
-  if(!name || !window || !owner) return res.status(400).json({ error: "Campos obrigatórios: name, window, owner" })
-  const items = await readJson(FILE, [])
-  const item = { id: uuidv4(), name, window, owner, status: "pending", createdAt: new Date().toISOString() }
-  items.push(item)
-  await writeJson(FILE, items)
-  res.status(201).json(item)
+  try {
+    const { name, window, owner } = req.body || {}
+    if(!name || !window || !owner) return res.status(400).json({ error: "Campos obrigatórios: name, window, owner" })
+    
+    const upgrade = await upgradeService.createUpgrade({ name, window, owner })
+    res.status(201).json(upgrade)
+  } catch (error) {
+    res.status(500).json({ error: error.message })
+  }
 })
 
 router.put("/:id", async (req, res) => {
-  const { id } = req.params
-  const { status } = req.body || {}
-  const items = await readJson(FILE, [])
-  const idx = items.findIndex(i => i.id === id)
-  if(idx === -1) return res.status(404).json({ error: "Não encontrado" })
-  if(status) items[idx].status = status
-  await writeJson(FILE, items)
-  res.json(items[idx])
+  try {
+    const { id } = req.params
+    const { status } = req.body || {}
+    
+    const upgrade = await upgradeService.updateUpgrade(id, { status })
+    if (!upgrade) return res.status(404).json({ error: "Não encontrado" })
+    
+    res.json(upgrade)
+  } catch (error) {
+    res.status(500).json({ error: error.message })
+  }
 })
 
 router.delete("/:id", async (req, res) => {
-  const { id } = req.params
-  const items = await readJson(FILE, [])
-  const next = items.filter(i => i.id !== id)
-  if(next.length === items.length) return res.status(404).json({ error: "Não encontrado" })
-  await writeJson(FILE, next)
-  res.status(204).end()
+  try {
+    const { id } = req.params
+    await upgradeService.deleteUpgrade(id)
+    res.status(204).end()
+  } catch (error) {
+    res.status(500).json({ error: error.message })
+  }
 })
 
 module.exports = router

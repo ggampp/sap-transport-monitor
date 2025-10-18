@@ -26,7 +26,7 @@ const transportBody = document.querySelector('#transport-table tbody');
 async function loadTransports(){
   const list = await api('/api/transports');
   transportBody.innerHTML = list.map(t=>`<tr>
-    <td>${t.requestId}</td><td>${t.system}</td><td>${t.owner}</td><td>${fmtDate(t.createdAt)}</td>
+    <td>${t.request_id || t.requestId}</td><td>${t.system}</td><td>${t.owner}</td><td>${fmtDate(t.created_at || t.createdAt)}</td>
     <td>${statusBadge(t.status)}</td>
     <td class="actions">
       <button onclick="updateTransport('${t.id}','in-progress')">Iniciar</button>

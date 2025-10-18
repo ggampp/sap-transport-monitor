@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Atribuições - Cockpit SAP Basis</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <nav class="sidebar">
+      <h2>Cockpit SAP Basis</h2>
+      <ul>
+        <li><a href="/">Dashboard</a></li>
+        <li><a href="/analytics.html">Analytics</a></li>
+        <li><a href="/users.html">Gestão de Usuários</a></li>
+        <li><a href="/profiles.html">Gestão de Perfis</a></li>
+        <li><a href="/roles.html">Gestão de Papéis</a></li>
+        <li><a href="/assignments.html" class="active">Atribuições</a></li>
+        <li><a href="/audit.html">Log de Auditoria</a></li>
+        <li><a href="/metrics.html">Métricas</a></li>
+      </ul>
+    </nav>
+    <div class="main-content">
+      <header>
+        <h1>Atribuição de Perfis e Papéis</h1>
+      </header>
+      <main>
+        <!-- User Assignment -->
+        <section class="card">
+          <h2>Atribuir Perfis e Papéis</h2>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+            <div>
+              <h3>Atribuir Perfil</h3>
+              <form id="assign-profile-form">
+                <div class="form-group">
+                  <label for="user-select-profile">Usuário</label>
+                  <select id="user-select-profile" required>
+                    <option value="">Selecione o usuário</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="profile-select">Perfil</label>
+                  <select id="profile-select" required>
+                    <option value="">Selecione o perfil</option>
+                  </select>
+                </div>
+                <button type="submit" class="btn btn-success">Atribuir Perfil</button>
+              </form>
+            </div>
+            <div>
+              <h3>Atribuir Papel</h3>
+              <form id="assign-role-form">
+                <div class="form-group">
+                  <label for="user-select-role">Usuário</label>
+                  <select id="user-select-role" required>
+                    <option value="">Selecione o usuário</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="role-select">Papel</label>
+                  <select id="role-select" required>
+                    <option value="">Selecione o papel</option>
+                  </select>
+                </div>
+                <button type="submit" class="btn btn-success">Atribuir Papel</button>
+              </form>
+            </div>
+          </div>
+        </section>
+
+        <!-- Current Assignments -->
+        <section class="card">
+          <h2>Atribuições Atuais</h2>
+          <div id="assignments-container">
+            <p>Selecione um usuário para ver suas atribuições</p>
+          </div>
+        </section>
+      </main>
+    </div>
+    <script>
+      let profiles = [];
+      let roles = [];
+      let users = [];
+
+      // Helper functions
+      async function api(path, options = {}) {
+        const res = await fetch(path, { 
+          headers: { 'Content-Type': 'application/json' }, 
+          ...options 
+        });
+        if (!res.ok) throw new Error(await res.text());
+        return res.json();
+      }
+
+      // Load data
+      async function loadData() {
+        try {
+          users = await api('/api/users');
+          loadProfiles();
+          loadRoles();
+          populateUserSelects();
+        } catch (error) {
+          console.error('Erro ao carregar dados:', error);
+        }
+      }
+
+      // Profile Management
+      async function loadProfiles() {
+        // Mock data for profiles
+        profiles = [
+          { id: '1', profileName: 'SAP_ALL', description: 'Acesso total ao sistema', category: 'administrative', userCount: 5 },
+          { id: '2', profileName: 'SAP_DEVELOPER', description: 'Perfil para desenvolvedores', category: 'technical', userCount: 12 },
+          { id: '3', profileName: 'SAP_USER', description: 'Usuário padrão', category: 'functional', userCount: 150 }
+        ];
+        populateProfileSelect();
+      }
+
+      // Role Management
+      async function loadRoles() {
+        // Mock data for roles
+        roles = [
+          { id: '1', roleName: 'ADMIN_ROLE', description: 'Papel administrativo', type: 'authorization', userCount: 3 },
+          { id: '2', roleName: 'DEVELOPER_ROLE', description: 'Papel de desenvolvedor', type: 'business', userCount: 8 },
+          { id: '3', roleName: 'USER_ROLE', description: 'Papel de usuário', type: 'system', userCount: 200 }
+        ];
+        populateRoleSelect();
+      }
+
+      // Populate selects
+      function populateUserSelects() {
+        const userSelects = ['user-select-profile', 'user-select-role'];
+        userSelects.forEach(selectId => {
+          const select = document.getElementById(selectId);
+          select.innerHTML = '<option value="">Selecione o usuário</option>' +
+            users.map(u => `<option value="${u.id}">${u.username} - ${u.fullName}</option>`).join('');
+        });
+      }
+
+      function populateProfileSelect() {
+        const select = document.getElementById('profile-select');
+        select.innerHTML = '<option value="">Selecione o perfil</option>' +
+          profiles.map(p => `<option value="${p.profileName}">${p.profileName}</option>`).join('');
+      }
+
+      function populateRoleSelect() {
+        const select = document.getElementById('role-select');
+        select.innerHTML = '<option value="">Selecione o papel</option>' +
+          roles.map(r => `<option value="${r.roleName}">${r.roleName}</option>`).join('');
+      }
+
+      // Assignment forms
+      document.getElementById('assign-profile-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const userId = document.getElementById('user-select-profile').value;
+        const profileName = document.getElementById('profile-select').value;
+        
+        if (!userId || !profileName) return;
+        
+        try {
+          await api(`/api/users/${userId}/profiles`, {
+            method: 'POST',
+            body: JSON.stringify({ profileName })
+          });
+          alert('Perfil atribuído com sucesso!');
+          loadUserAssignments(userId);
+        } catch (error) {
+          alert('Erro ao atribuir perfil: ' + error.message);
+        }
+      });
+
+      document.getElementById('assign-role-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const userId = document.getElementById('user-select-role').value;
+        const roleName = document.getElementById('role-select').value;
+        
+        if (!userId || !roleName) return;
+        
+        try {
+          await api(`/api/users/${userId}/roles`, {
+            method: 'POST',
+            body: JSON.stringify({ roleName })
+          });
+          alert('Papel atribuído com sucesso!');
+          loadUserAssignments(userId);
+        } catch (error) {
+          alert('Erro ao atribuir papel: ' + error.message);
+        }
+      });
+
+      // Load user assignments
+      async function loadUserAssignments(userId) {
+        try {
+          const user = await api(`/api/users/${userId}`);
+          const container = document.getElementById('assignments-container');
+          container.innerHTML = `
+            <h3>Atribuições de ${user.username}</h3>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+              <div>
+                <h4>Perfis (${user.profiles.length})</h4>
+                <ul>${user.profiles.map(p => `<li>${p} <button onclick="removeProfile('${userId}', '${p}')">Remover</button></li>`).join('')}</ul>
+              </div>
+              <div>
+                <h4>Papéis (${user.roles.length})</h4>
+                <ul>${user.roles.map(r => `<li>${r} <button onclick="removeRole('${userId}', '${r}')">Remover</button></li>`).join('')}</ul>
+              </div>
+            </div>
+          `;
+        } catch (error) {
+          console.error('Erro ao carregar atribuições:', error);
+        }
+      }
+
+      // Event listeners for user selection
+      document.getElementById('user-select-profile').addEventListener('change', (e) => {
+        if (e.target.value) loadUserAssignments(e.target.value);
+      });
+
+      document.getElementById('user-select-role').addEventListener('change', (e) => {
+        if (e.target.value) loadUserAssignments(e.target.value);
+      });
+
+      // Remove functions
+      window.removeProfile = async (userId, profileName) => {
+        if (confirm(`Remover perfil ${profileName}?`)) {
+          try {
+            await api(`/api/users/${userId}/profiles/${profileName}`, { method: 'DELETE' });
+            loadUserAssignments(userId);
+          } catch (error) {
+            alert('Erro ao remover perfil: ' + error.message);
+          }
+        }
+      };
+
+      window.removeRole = async (userId, roleName) => {
+        if (confirm(`Remover papel ${roleName}?`)) {
+          try {
+            await api(`/api/users/${userId}/roles/${roleName}`, { method: 'DELETE' });
+            loadUserAssignments(userId);
+          } catch (error) {
+            alert('Erro ao remover papel: ' + error.message);
+          }
+        }
+      };
+
+      function toggleSubmenu(element) {
+        const submenu = element.querySelector('.submenu');
+        const isOpen = submenu.classList.contains('show');
+        
+        // Close all other submenus
+        document.querySelectorAll('.submenu').forEach(sm => sm.classList.remove('show'));
+        document.querySelectorAll('.has-submenu').forEach(li => li.classList.remove('open'));
+        
+        // Toggle current submenu
+        if (!isOpen) {
+          submenu.classList.add('show');
+          element.classList.add('open');
+        }
+      }
+
+      // Initialize
+      loadData();
+    </script>
+  </body>
+</html>

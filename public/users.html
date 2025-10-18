@@ -14,7 +14,9 @@
         <li><a href="/">Dashboard</a></li>
         <li><a href="/analytics.html">Analytics</a></li>
         <li><a href="/users.html" class="active">Gestão de Usuários</a></li>
-        <li><a href="/profiles.html">Perfis e Papéis</a></li>
+        <li><a href="/profiles.html">Gestão de Perfis</a></li>
+        <li><a href="/roles.html">Gestão de Papéis</a></li>
+        <li><a href="/assignments.html">Atribuições</a></li>
         <li><a href="/audit.html">Log de Auditoria</a></li>
         <li><a href="/metrics.html">Métricas</a></li>
       </ul>
@@ -25,18 +27,33 @@
       </header>
       <main>
       <!-- User Management -->
-      <section>
+      <section class="card">
         <h2>Gestão de Usuários</h2>
         <form id="user-form">
-          <input name="username" placeholder="Username" required />
-          <input name="fullName" placeholder="Nome Completo" required />
-          <input name="email" placeholder="Email" type="email" required />
-          <input name="department" placeholder="Departamento" required />
-          <select name="status">
-            <option value="active">Ativo</option>
-            <option value="blocked">Bloqueado</option>
-          </select>
-          <button type="submit">Criar Usuário</button>
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input name="username" placeholder="Username" required />
+          </div>
+          <div class="form-group">
+            <label for="fullName">Nome Completo</label>
+            <input name="fullName" placeholder="Nome Completo" required />
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input name="email" placeholder="Email" type="email" required />
+          </div>
+          <div class="form-group">
+            <label for="department">Departamento</label>
+            <input name="department" placeholder="Departamento" required />
+          </div>
+          <div class="form-group">
+            <label for="status">Status</label>
+            <select name="status">
+              <option value="active">Ativo</option>
+              <option value="blocked">Bloqueado</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-success">Criar Usuário</button>
         </form>
         <table id="users-table">
           <thead>
@@ -47,7 +64,7 @@
       </section>
 
       <!-- Profile/Role Management -->
-      <section>
+      <section class="card">
         <h2>Perfis e Papéis</h2>
         <div id="profile-management" style="display:none">
           <h3>Gerenciar Perfis e Papéis</h3>
@@ -269,6 +286,21 @@
             }
           }
         });
+      }
+
+      function toggleSubmenu(element) {
+        const submenu = element.querySelector('.submenu');
+        const isOpen = submenu.classList.contains('show');
+        
+        // Close all other submenus
+        document.querySelectorAll('.submenu').forEach(sm => sm.classList.remove('show'));
+        document.querySelectorAll('.has-submenu').forEach(li => li.classList.remove('open'));
+        
+        // Toggle current submenu
+        if (!isOpen) {
+          submenu.classList.add('show');
+          element.classList.add('open');
+        }
       }
 
       // Initialize

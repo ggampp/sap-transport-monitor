@@ -1,8 +1,13 @@
 applications:
-  - name: node-simple-app
-    memory: 128M
+  - name: sap-basis-cockpit
+    memory: 256M
     buildpacks:
       - nodejs_buildpack
     command: npm start
     env:
       NODE_ENV: production
+      BTP_DEPLOYMENT: "true"
+    services:
+      - monitor-db
+    routes:
+      - route: sap-basis-cockpit.cfapps.us10-001.hana.ondemand.com

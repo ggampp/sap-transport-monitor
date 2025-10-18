@@ -13,7 +13,9 @@
         <li><a href="/" class="active">Dashboard</a></li>
         <li><a href="/analytics.html">Analytics</a></li>
         <li><a href="/users.html">Gestão de Usuários</a></li>
-        <li><a href="/profiles.html">Perfis e Papéis</a></li>
+        <li><a href="/profiles.html">Gestão de Perfis</a></li>
+        <li><a href="/roles.html">Gestão de Papéis</a></li>
+        <li><a href="/assignments.html">Atribuições</a></li>
         <li><a href="/audit.html">Log de Auditoria</a></li>
         <li><a href="/metrics.html">Métricas</a></li>
       </ul>
@@ -28,13 +30,22 @@
         </nav>
       </header>
       <main>
-      <section id="transports" class="tab active">
+      <section id="transports" class="tab active card">
         <h2>Transportes</h2>
         <form id="transport-form">
-          <input name="requestId" placeholder="Request ID" required />
-          <input name="system" placeholder="Sistema (ex: DEV/QAS/PRD)" required />
-          <input name="owner" placeholder="Responsável" required />
-          <button type="submit">Adicionar</button>
+          <div class="form-group">
+            <label for="requestId">Request ID</label>
+            <input name="requestId" placeholder="Request ID" required />
+          </div>
+          <div class="form-group">
+            <label for="system">Sistema</label>
+            <input name="system" placeholder="Sistema (ex: DEV/QAS/PRD)" required />
+          </div>
+          <div class="form-group">
+            <label for="owner">Responsável</label>
+            <input name="owner" placeholder="Responsável" required />
+          </div>
+          <button type="submit" class="btn btn-success">Adicionar</button>
         </form>
         <table id="transport-table">
           <thead>
@@ -43,13 +54,22 @@
           <tbody></tbody>
         </table>
       </section>
-      <section id="notes" class="tab">
+      <section id="notes" class="tab card">
         <h2>Notas SAP</h2>
         <form id="note-form">
-          <input name="noteId" placeholder="Nota (ex: 1234567)" required />
-          <input name="system" placeholder="Sistema" required />
-          <input name="owner" placeholder="Responsável" required />
-          <button type="submit">Adicionar</button>
+          <div class="form-group">
+            <label for="noteId">Nota</label>
+            <input name="noteId" placeholder="Nota (ex: 1234567)" required />
+          </div>
+          <div class="form-group">
+            <label for="system">Sistema</label>
+            <input name="system" placeholder="Sistema" required />
+          </div>
+          <div class="form-group">
+            <label for="owner">Responsável</label>
+            <input name="owner" placeholder="Responsável" required />
+          </div>
+          <button type="submit" class="btn btn-success">Adicionar</button>
         </form>
         <table id="notes-table">
           <thead>
@@ -58,13 +78,22 @@
           <tbody></tbody>
         </table>
       </section>
-      <section id="upgrades" class="tab">
+      <section id="upgrades" class="tab card">
         <h2>Upgrades</h2>
         <form id="upgrade-form">
-          <input name="name" placeholder="Nome do Upgrade" required />
-          <input name="window" placeholder="Janela (ex: 2025-11-10 22:00)" required />
-          <input name="owner" placeholder="Responsável" required />
-          <button type="submit">Agendar</button>
+          <div class="form-group">
+            <label for="name">Nome do Upgrade</label>
+            <input name="name" placeholder="Nome do Upgrade" required />
+          </div>
+          <div class="form-group">
+            <label for="window">Janela</label>
+            <input name="window" placeholder="Janela (ex: 2025-11-10 22:00)" required />
+          </div>
+          <div class="form-group">
+            <label for="owner">Responsável</label>
+            <input name="owner" placeholder="Responsável" required />
+          </div>
+          <button type="submit" class="btn btn-success">Agendar</button>
         </form>
         <table id="upgrades-table">
           <thead>
@@ -76,7 +105,23 @@
       </main>
     </div>
     <script src="/main.js"></script>
+    <script>
+      function toggleSubmenu(element) {
+        const submenu = element.querySelector('.submenu');
+        const isOpen = submenu.classList.contains('show');
+        
+        // Close all other submenus
+        document.querySelectorAll('.submenu').forEach(sm => sm.classList.remove('show'));
+        document.querySelectorAll('.has-submenu').forEach(li => li.classList.remove('open'));
+        
+        // Toggle current submenu
+        if (!isOpen) {
+          submenu.classList.add('show');
+          element.classList.add('open');
+        }
+      }
+    </script>
   </body>
-  </html>
+</html>
 
 

@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Gestão de Papéis - Cockpit SAP Basis</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <nav class="sidebar">
+      <h2>Cockpit SAP Basis</h2>
+      <ul>
+        <li><a href="/">Dashboard</a></li>
+        <li><a href="/analytics.html">Analytics</a></li>
+        <li><a href="/users.html">Gestão de Usuários</a></li>
+        <li><a href="/profiles.html">Gestão de Perfis</a></li>
+        <li><a href="/roles.html" class="active">Gestão de Papéis</a></li>
+        <li><a href="/assignments.html">Atribuições</a></li>
+        <li><a href="/audit.html">Log de Auditoria</a></li>
+        <li><a href="/metrics.html">Métricas</a></li>
+      </ul>
+    </nav>
+    <div class="main-content">
+      <header>
+        <h1>Gestão de Papéis</h1>
+      </header>
+      <main>
+        <!-- Role Management -->
+        <section class="card">
+          <h2>Criar Novo Papel</h2>
+          <form id="role-form">
+            <div class="form-group">
+              <label for="roleName">Nome do Papel</label>
+              <input name="roleName" placeholder="Nome do Papel" required />
+            </div>
+            <div class="form-group">
+              <label for="description">Descrição</label>
+              <input name="description" placeholder="Descrição" />
+            </div>
+            <div class="form-group">
+              <label for="type">Tipo</label>
+              <select name="type">
+                <option value="authorization">Autorização</option>
+                <option value="business">Negócio</option>
+                <option value="system">Sistema</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-success">Criar Papel</button>
+          </form>
+        </section>
+
+        <section class="card">
+          <h2>Lista de Papéis</h2>
+          <table id="roles-table">
+            <thead>
+              <tr><th>Nome</th><th>Descrição</th><th>Tipo</th><th>Usuários</th><th>Ações</th></tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </section>
+      </main>
+    </div>
+    <script>
+      let roles = [];
+
+      // Helper functions
+      async function api(path, options = {}) {
+        const res = await fetch(path, { 
+          headers: { 'Content-Type': 'application/json' }, 
+          ...options 
+        });
+        if (!res.ok) throw new Error(await res.text());
+        return res.json();
+      }
+
+      // Role Management
+      async function loadRoles() {
+        // Mock data for roles
+        roles = [
+          { id: '1', roleName: 'ADMIN_ROLE', description: 'Papel administrativo', type: 'authorization', userCount: 3 },
+          { id: '2', roleName: 'DEVELOPER_ROLE', description: 'Papel de desenvolvedor', type: 'business', userCount: 8 },
+          { id: '3', roleName: 'USER_ROLE', description: 'Papel de usuário', type: 'system', userCount: 200 }
+        ];
+        
+        const tbody = document.querySelector('#roles-table tbody');
+        tbody.innerHTML = roles.map(r => `<tr>
+          <td>${r.roleName}</td>
+          <td>${r.description}</td>
+          <td>${r.type}</td>
+          <td>${r.userCount}</td>
+          <td class="actions">
+            <button onclick="editRole('${r.id}')">Editar</button>
+            <button onclick="deleteRole('${r.id}')">Excluir</button>
+          </td>
+        </tr>`).join('');
+      }
+
+      document.getElementById('role-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const form = new FormData(e.target);
+        const role = Object.fromEntries(form);
+        role.id = Date.now().toString();
+        role.userCount = 0;
+        roles.push(role);
+        loadRoles();
+        e.target.reset();
+      });
+
+      // Mock functions for role management
+      window.editRole = (id) => {
+        const role = roles.find(r => r.id === id);
+        if (role) {
+          document.getElementById('role-form').roleName.value = role.roleName;
+          document.getElementById('role-form').description.value = role.description;
+          document.getElementById('role-form').type.value = role.type;
+        }
+      };
+
+      window.deleteRole = (id) => {
+        if (confirm('Excluir este papel?')) {
+          roles = roles.filter(r => r.id !== id);
+          loadRoles();
+        }
+      };
+
+      function toggleSubmenu(element) {
+        const submenu = element.querySelector('.submenu');
+        const isOpen = submenu.classList.contains('show');
+        
+        // Close all other submenus
+        document.querySelectorAll('.submenu').forEach(sm => sm.classList.remove('show'));
+        document.querySelectorAll('.has-submenu').forEach(li => li.classList.remove('open'));
+        
+        // Toggle current submenu
+        if (!isOpen) {
+          submenu.classList.add('show');
+          element.classList.add('open');
+        }
+      }
+
+      // Initialize
+      loadRoles();
+    </script>
+  </body>
+</html>
